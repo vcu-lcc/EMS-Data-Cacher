@@ -1,0 +1,8 @@
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.csprojResolveAssemblyReference.cache
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Debug\settings.xml
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Debug\EMS Cacher.exe
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Debug\EMS Cacher.pdb
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.exe
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.pdb
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.csproj.GenerateResource.Cache
+C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS_Cacher.EmsCachingService.resources
