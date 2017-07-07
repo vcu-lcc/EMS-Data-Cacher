@@ -8,15 +8,17 @@ This project was made to be a single add-on to Nomad, delivering building struct
 
 ### Setup ###
 This project was developed with Visual Studio (2017), with C#. Simply import this project, compile, and run.
+
 Configuration
+
 * Edit `./EMS Cacher/settings.xml` to set the following parameters:
-    * Credentials
-    * API Location
-    * Output Directory
-    * Refresh Interval
-    * Timeout
-    * Additional building information
-    * Logging
+  * Credentials
+  * API Location
+  * Output Directory
+  * Refresh Interval
+  * Timeout
+  * Additional building information
+  * Logging
 
 ### Contact ###
 * Email [chand3@vcu.edu](mailto:chand3@vcu.edu) for any inquiries.
