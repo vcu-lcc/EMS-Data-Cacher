@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<object>
+  <string name="URL">http://127.0.0.1/</string>
+  <string name="Username"></string>
+  <string name="Password"></string>
+  <string name="OutputDirectory">%temp%</string>
+  <object name="Interval">
+    <number name="Seconds">0</number>
+    <number name="Minutes">0</number>
+    <number name="Hours">1</number>
+    <number name="Days">0</number>
+    <number name="Weeks">0</number>
+    <number name="Months">0</number>
+    <number name="Years">0</number>
+  </object>
+  <object name="Timeout">
+    <number name="Seconds">0</number>
+    <number name="Minutes">5</number>
+    <number name="Hours">0</number>
+    <number name="Days">0</number>
+    <number name="Weeks">0</number>
+    <number name="Months">0</number>
+    <number name="Years">0</number>
+  </object>
+  <object name="University">
+    <string name="Name"></string>
+    <string name="Acronym"></string>
+    <string name="Department"></string>
+  </object>
+  <string name="LogLevel">Log</string>
+  <comment>
+    <message>
+      This is an xml represenation of the EMS Cacher's config file.
+        Edit this file to tweak the various aspects of the EMS Cacher.
+        The current configuration is the default fallback hard-coded
+        contents of the EMS Cacher service.
+      You do not have to leave in all of these values. Delete
+        any unneccesary keys or subkeys.
+    </message>
+    <note>
+      LogLevel could one of the following values:
+        ["None", "Error", "Warn", "Info", "Log", "Verbose", "All"]
+    </note>
+  </comment>
+</object>

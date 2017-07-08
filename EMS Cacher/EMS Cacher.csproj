@@ -66,6 +66,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="settings_notes.xml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
