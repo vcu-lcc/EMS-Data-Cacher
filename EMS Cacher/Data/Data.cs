@@ -180,30 +180,42 @@ namespace Data
             }
             public bool getBoolean(string key)
             {
-                return ((Serializable.Boolean)this.get(key)).get();
+                return this.get(key).getType() == "boolean" ?
+                    ((Serializable.Boolean)this.get(key)).get() : false;
             }
             public double getNumber(string key)
             {
-                return ((Serializable.Number)this.get(key)).get();
+                return this.get(key).getType() == "number" ?
+                    ((Serializable.Number)this.get(key)).get() : Double.NaN;
             }
             public string getString(string key)
             {
-                return ((Serializable.String)this.get(key)).get();
+                return this.get(key).getType() == "string" ?
+                    ((Serializable.String)this.get(key)).get() : null;
             }
             public Serializable.Array getArray(string key)
             {
-                return ((Serializable.Array)this.get(key));
+                return this.get(key).getType() == "array" ?
+                    ((Serializable.Array)this.get(key)) : null;
             }
             public Serializable.Object getObject(string key)
             {
-                return ((Serializable.Object)this.get(key));
+                return this.get(key).getType() == "object" ?
+                    ((Serializable.Object)this.get(key)) : null;
             }
             public Serializable.Object apply(Serializable.Object obj)
             {
                 List<Tuple<string, DataType>> children = obj.getChildren();
                 foreach(Tuple<string, DataType> child in children)
                 {
-                    this.set(child.Item1, child.Item2);
+                    if (child.Item2.getType() == "object" && this.getObject(child.Item1) != null)
+                    {
+                        this.getObject(child.Item1).apply((Serializable.Object)child.Item2);
+                    }
+                    else
+                    {
+                        this.set(child.Item1, child.Item2);
+                    }
                 }
                 return this;
             }
