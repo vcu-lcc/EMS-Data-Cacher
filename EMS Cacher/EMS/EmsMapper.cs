@@ -36,8 +36,8 @@ namespace EMS_Cacher
             foreach (XMLElement building in buildings)
             {
                 string[] name = building.getElementByTagName("Description").text().Split('|');
-                string campusName = name.Length == 1 ? "Other" : name[0];
-                string buildingName = name.Length == 1 ? name[0] : name[1];
+                string campusName = name.Length == 1 ? "Other" : name[0].Trim();
+                string buildingName = name.Length == 1 ? name[0].Trim() : name[1].Trim();
                 if (!university.hasCampus(campusName))
                 {
                     university.addCampus(new Campus(campusName));
