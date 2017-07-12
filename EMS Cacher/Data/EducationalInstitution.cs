@@ -15,16 +15,11 @@ namespace EducationalInstitution
 
         public University(Serializable.Object props)
         {
-            string name = props.getString("Name");
-            string acronym = props.getString("Acronym");
-            string department = props.getString("Department");
-            base.set("Name", new Serializable.String(name));
-            base.set("Acronym", new Serializable.String(acronym));
-            base.set("Department", new Serializable.String(department));
+            base.apply(props);
             base.set("Campuses", m_campuses);
-            this.m_name = name;
-            this.m_acronym = acronym;
-            this.m_department = department;
+            this.m_name = props.getString("Name");
+            this.m_acronym = props.getString("Acronym");
+            this.m_department = props.getString("Department");
         }
         public University addCampus(Campus campus)
         {
@@ -42,6 +37,14 @@ namespace EducationalInstitution
         public string getName()
         {
             return this.m_name;
+        }
+        public string getAcronym()
+        {
+            return this.m_acronym;
+        }
+        public string getDepartment()
+        {
+            return this.m_department;
         }
         public Campus getCampus(string name)
         {
@@ -81,6 +84,52 @@ namespace EducationalInstitution
                 buildings.Add((Campus)m_campuses.get(i));
             }
             return buildings;
+        }
+        public override Serializable.Object apply(Serializable.Object obj)
+        {
+            if (obj != null)
+            {
+                Serializable.Object universityObj = null;
+                if (obj.getObject("*") != null)
+                {
+                    universityObj = obj.getObject("*");
+                }
+                else if (obj.getObject(this.m_name) != null)
+                {
+                    universityObj = obj.getObject(this.m_name);
+                }
+                else if (obj.getObject(this.m_acronym) != null)
+                {
+                    universityObj = obj.getObject(this.m_acronym);
+                }
+                if (universityObj != null)
+                {
+                    foreach (var i in universityObj.getChildren())
+                    {
+                        if (i.Item2.getType() == "object")
+                        {
+                            Campus campus = this.getCampus(i.Item1);
+                            if (campus != null)
+                            {
+                                campus.apply(universityObj);
+                            }
+                        }
+                        else
+                        {
+                            if (i.Item1 == "Name")
+                            {
+                                m_name = i.Item2.getValue();
+                            }
+                            else if (i.Item1 == "Acronym")
+                            {
+                                m_acronym = i.Item2.getValue();
+                            }
+                            base.set(i.Item1, new Serializable.String(i.Item2.getValue()));
+                        }
+                    }
+                }
+            }
+            return this;
         }
     }
 
@@ -168,6 +217,46 @@ namespace EducationalInstitution
             }
             return buildings;
         }
+        public override Serializable.Object apply(Serializable.Object obj)
+        {
+            if (obj != null)
+            {
+                Serializable.Object campusObj = null;
+                if (obj.getObject("*") != null)
+                {
+                    campusObj = obj.getObject("*");
+                }
+                else if (obj.getObject(this.m_name) != null)
+                {
+                    campusObj = obj.getObject(this.m_name);
+                }
+                if (campusObj != null)
+                {
+                    foreach (var i in campusObj.getChildren())
+                    {
+                        if (i.Item2.getType() == "object")
+                        {
+                            Building building = this.getBuilding(i.Item1);
+                            if (building != null)
+                            {
+                                building.apply((Serializable.Object)i.Item2);
+                            }
+                        }
+                        else
+                        {
+                            string match = i.Item1;
+                            string replacement = i.Item2.getValue();
+                            if (match == "Name")
+                            {
+                                m_name = replacement;
+                            }
+                            base.set(match, new Serializable.String(replacement));
+                        }
+                    }
+                }
+            }
+            return this;
+        }
     }
 
     public class Building : Serializable.Object
@@ -205,7 +294,7 @@ namespace EducationalInstitution
             foreach (var i in b)
             {
                 Room building = (Room)i.Item2;
-                if (building.getDescription().Contains(name))
+                if (m_name.Contains(name) || m_acronym.Contains(name))
                 {
                     return building;
                 }
@@ -218,7 +307,7 @@ namespace EducationalInstitution
             foreach (var i in b)
             {
                 Room building = (Room)i.Item2;
-                if (building.getDescription() == name)
+                if (m_name == name || m_acronym == name)
                 {
                     return building;
                 }
@@ -260,33 +349,130 @@ namespace EducationalInstitution
             }
             return rooms;
         }
+        public override Serializable.Object apply(Serializable.Object obj)
+        {
+            if (obj != null)
+            {
+                Serializable.Object buildingObj = null;
+                if (obj.getObject("*") != null)
+                {
+                    buildingObj = obj.getObject("*");
+                }
+                else if (obj.getObject(this.m_name) != null)
+                {
+                    buildingObj = obj.getObject(this.m_name);
+                }
+                else if (obj.getObject(this.m_acronym) != null)
+                {
+                    buildingObj = obj.getObject(this.m_acronym);
+                }
+                else if (obj.getObject(this.m_id.ToString()) != null)
+                {
+                    buildingObj = obj.getObject(this.m_id.ToString());
+                }
+                if (buildingObj != null)
+                {
+                    foreach (var i in buildingObj.getChildren())
+                    {
+                        if (i.Item2.getType() == "object")
+                        {
+                            Room room = this.getRoom(i.Item1);
+                            if (room != null)
+                            {
+                                room.apply(buildingObj);
+                            }
+                        }
+                        else
+                        {
+                            if (i.Item1 == "Name")
+                            {
+                                m_name = i.Item2.getValue();
+                            }
+                            else if (i.Item1 == "Acronym")
+                            {
+                                m_acronym = i.Item2.getValue();
+                            }
+                            else if (i.Item1 == "ID")
+                            {
+                                m_id = (int)((Serializable.Number)i.Item2).get();
+                            }
+                            base.set(i.Item1, new Serializable.String(i.Item2.getValue()));
+                        }
+                    }
+                }
+            }
+            return this;
+        }
     }
     
     public class Room : Serializable.Object
     {
         private int m_roomNumber;
-        private string m_description;
+        private string m_name;
         private int m_id;
 
-        public Room(int roomNumber, string description, int id)
+        public Room(int roomNumber, string name, int id)
         {
             base.set("RoomNumber", new Serializable.Number(roomNumber));
-            base.set("Description", new Serializable.String(description));
+            base.set("Name", new Serializable.String(name));
             base.set("ID", new Serializable.Number(id));
             this.m_roomNumber = roomNumber;
-            this.m_description = description;
+            this.m_name = name;
             this.m_id = id;
         }
         public int getRoomNumber()
         {
             return this.m_roomNumber;
         }
-        public string getDescription()
+        public string getName()
         {
-            return m_description;
+            return m_name;
         }
         public int getID() {
             return this.m_id;
+        }
+        public override Serializable.Object apply(Serializable.Object obj)
+        {
+            if (obj != null)
+            {
+                Serializable.Object roomObj = null;
+                if (obj.getObject("*") != null)
+                {
+                    roomObj = obj.getObject("*");
+                }
+                else if (obj.getObject(this.m_name) != null)
+                {
+                    roomObj = obj.getObject(this.m_name);
+                }
+                else if (obj.getObject(this.m_id.ToString()) != null)
+                {
+                    roomObj = obj.getObject(this.m_id.ToString());
+                }
+                else if (obj.getObject(this.m_roomNumber.ToString()) != null)
+                {
+                    roomObj = obj.getObject(this.m_roomNumber.ToString());
+                }
+                if (roomObj != null)
+                {
+                    foreach (var i in roomObj.getChildren())
+                    {
+                        if (i.Item1 == "Name")
+                        {
+                            m_name = i.Item2.getValue();
+                        }
+                        else if (i.Item1 == "RoomNumber")
+                        {
+                            m_roomNumber = (int)((Serializable.Number)i.Item2).get();
+                        }
+                        else if (i.Item1 == "ID")
+                        {
+                            m_id = (int)((Serializable.Number)i.Item2).get();
+                        }
+                        base.set(i.Item1, new Serializable.String(i.Item2.getValue()));
+                    }
+                }
+            }
+            return this;
         }
     }
 }

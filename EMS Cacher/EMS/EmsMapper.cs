@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XML;
+using Data;
 using static Persistence;
 
 namespace EMS_Cacher
@@ -51,6 +52,7 @@ namespace EMS_Cacher
                     Int32.Parse(building.getElementByTagName("ID").text())
                 )));
             }
+            university.apply(config.getObject("Edit"));
             return university;
         }
         public static List<Room> getRooms(int buildingID)

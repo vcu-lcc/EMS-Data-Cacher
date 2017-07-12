@@ -13,6 +13,8 @@ public class Persistence
         .set("Username", new Serializable.String())
         .set("Password", new Serializable.String())
         .set("OutputDirectory", new Serializable.String(Path.GetTempPath()))
+        .set("MaxConsecutiveTimeouts", new Serializable.Number(10))
+        .set("MaxAuxillaryErrors", new Serializable.Number(3))
         .set("Interval", new Serializable.Object()
             .set("Seconds", new Serializable.Number(0))
             .set("Minutes", new Serializable.Number(0))
@@ -36,7 +38,8 @@ public class Persistence
             .set("Acronym", new Serializable.String(""))
             .set("Department", new Serializable.String(""))
         )
-        .set("LogLevel", new Serializable.String("Log"));
+        .set("LogLevel", new Serializable.String("Log"))
+        .set("Edit", new Serializable.Object());
 
     public class Config
     {
@@ -122,7 +125,8 @@ public class Persistence
             {"log", new List<string>()},
             {"info", new List<string>()},
             {"warn", new List<string>()},
-            {"error", new List<string>()}
+            {"error", new List<string>()},
+            {"fatal", new List<string>()}
         };
         private static int getLogLevel()
         {
@@ -130,22 +134,24 @@ public class Persistence
             {
                 case "None":
                     return 0;
-                case "Error":
+                case "Fatal":
                     return 1;
-                case "Warn":
+                case "Error":
                     return 2;
-                case "Info":
+                case "Warn":
                     return 3;
-                case "Log":
+                case "Info":
                     return 4;
-                case "Verbose":
+                case "Log":
                     return 5;
-                case "All":
+                case "Verbose":
                     return 6;
+                case "All":
+                    return 7;
                 default:
                     {
                         console.error("Unknown LogLevel " + config.getString("LogLevel"));
-                        return 6;
+                        return 7;
                     }
             }
         }
@@ -190,9 +196,25 @@ public class Persistence
                                 console.error(pending.Value.ToArray());
                                 break;
                             }
+                        case "fatal":
+                            {
+                                console.fatal(pending.Value.ToArray());
+                                break;
+                            }
                     }
                 }
             }
+        }
+        private static void _log(string[] messages, char level)
+        {
+            for (int i = 0; i != messages.Length; i++)
+            {
+                messages[i] = level + "| " + string.Join(
+                    Environment.NewLine + level + "| ",
+                    messages[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
+                );
+            }
+            File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
         }
         public static void verbose(params string[] messages)
         {
@@ -201,8 +223,8 @@ public class Persistence
                 pendingMessages["verbose"].AddRange(messages);
                 return;
             }
-            if (logLevel > 4)
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
+            if (logLevel > 5)
+                _log(messages, 'V');
         }
         public static void log(params string[] messages)
         {
@@ -211,8 +233,8 @@ public class Persistence
                 pendingMessages["log"].AddRange(messages);
                 return;
             }
-            if (logLevel > 3)
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
+            if (logLevel > 4)
+                _log(messages, 'L');
         }
         public static void info(params string[] messages)
         {
@@ -221,8 +243,8 @@ public class Persistence
                 pendingMessages["info"].AddRange(messages);
                 return;
             }
-            if (logLevel > 2)
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
+            if (logLevel > 3)
+                _log(messages, 'I');
         }
         public static void warn(params string[] messages)
         {
@@ -231,8 +253,8 @@ public class Persistence
                 pendingMessages["warn"].AddRange(messages);
                 return;
             }
-            if (logLevel > 1)
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
+            if (logLevel > 2)
+                _log(messages, 'W');
         }
         public static void error(params string[] messages)
         {
@@ -241,8 +263,8 @@ public class Persistence
                 pendingMessages["error"].AddRange(messages);
                 return;
             }
-            if (logLevel > 0)
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
+            if (logLevel > 1)
+                _log(messages, 'E');
         }
         public static void error(Exception e, params string[] messages)
         {
@@ -255,10 +277,40 @@ public class Persistence
                 );
                 return;
             }
+            if (logLevel > 1)
+            {
+                _log(messages, 'E');
+                console.error(
+                    "Details: " + e.Message,
+                    "Stack Trace: ", e.StackTrace
+                );
+            }
+        }
+        public static void fatal(params string[] messages)
+        {
+            if (pendingMessages != null)
+            {
+                pendingMessages["fatal"].AddRange(messages);
+                return;
+            }
+            if (logLevel > 0)
+                _log(messages, 'F');
+        }
+        public static void fatal(Exception e, params string[] messages)
+        {
+            if (pendingMessages != null)
+            {
+                pendingMessages["fatal"].AddRange(messages);
+                console.fatal(
+                    "Details: " + e.Message,
+                    "Stack Trace: ", e.StackTrace
+                );
+                return;
+            }
             if (logLevel > 0)
             {
-                File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
-                console.error(
+                _log(messages, 'F');
+                console.fatal(
                     "Details: " + e.Message,
                     "Stack Trace: ", e.StackTrace
                 );

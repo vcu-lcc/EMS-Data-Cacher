@@ -109,21 +109,21 @@ namespace Data
             {
                 return this.m_children;
             }
-            public Array add(DataType value)
+            public virtual Array add(DataType value)
             {
                 this.m_children.Add(new Tuple<string, DataType>(null, value));
                 return this;
             }
-            public Array removeAt(int i)
+            public virtual Array removeAt(int i)
             {
                 this.m_children.RemoveAt(i);
                 return this;
             }
-            public DataType get(int i)
+            public virtual DataType get(int i)
             {
                 return m_children[i].Item2;
             }
-            public List<DataType> toArray()
+            public virtual List<DataType> toArray()
             {
                 List<DataType> children = new List<DataType>();
                 foreach (var i in m_children)
@@ -136,7 +136,7 @@ namespace Data
             {
                 return "array";
             }
-            public int size()
+            public virtual int size()
             {
                 return m_children.Count();
             }
@@ -149,7 +149,7 @@ namespace Data
             {
                 return this.m_children;
             }
-            public Serializable.Object set(string key, DataType value)
+            public virtual Serializable.Object set(string key, DataType value)
             {
                 for (int i = 0; i != this.m_children.Count; i++)
                 {
@@ -162,7 +162,7 @@ namespace Data
                 this.m_children.Add(new Tuple<string, DataType>(key, value));
                 return this;
             }
-            public DataType get(string key)
+            public virtual DataType get(string key)
             {
                 foreach (var i in m_children)
                 {
@@ -173,37 +173,37 @@ namespace Data
                 }
                 return null;
             }
-            public string getType(string key)
+            public virtual string getType(string key)
             {
                 DataType data = this.get(key);
                 return data == null ? "undefined" : data.getType();
             }
-            public bool getBoolean(string key)
+            public virtual bool getBoolean(string key)
             {
-                return this.get(key).getType() == "boolean" ?
+                return this.get(key) != null && this.get(key).getType() == "boolean" ?
                     ((Serializable.Boolean)this.get(key)).get() : false;
             }
-            public double getNumber(string key)
+            public virtual double getNumber(string key)
             {
-                return this.get(key).getType() == "number" ?
+                return this.get(key) != null && this.get(key).getType() == "number" ?
                     ((Serializable.Number)this.get(key)).get() : Double.NaN;
             }
-            public string getString(string key)
+            public virtual string getString(string key)
             {
-                return this.get(key).getType() == "string" ?
+                return this.get(key) != null && this.get(key).getType() == "string" ?
                     ((Serializable.String)this.get(key)).get() : null;
             }
-            public Serializable.Array getArray(string key)
+            public virtual Serializable.Array getArray(string key)
             {
-                return this.get(key).getType() == "array" ?
+                return this.get(key) != null && this.get(key).getType() == "array" ?
                     ((Serializable.Array)this.get(key)) : null;
             }
-            public Serializable.Object getObject(string key)
+            public virtual Serializable.Object getObject(string key)
             {
-                return this.get(key).getType() == "object" ?
+                return this.get(key) != null && this.get(key).getType() == "object" ?
                     ((Serializable.Object)this.get(key)) : null;
             }
-            public Serializable.Object apply(Serializable.Object obj)
+            public virtual Serializable.Object apply(Serializable.Object obj)
             {
                 List<Tuple<string, DataType>> children = obj.getChildren();
                 foreach(Tuple<string, DataType> child in children)
@@ -219,7 +219,7 @@ namespace Data
                 }
                 return this;
             }
-            public Serializable.Object remove(string key)
+            public virtual Serializable.Object remove(string key)
             {
                 for (int i = this.m_children.Count - 1; i >= 0; i++)
                 {
