@@ -85,16 +85,16 @@ namespace EducationalInstitution
             }
             return buildings;
         }
-        public override Serializable.Object apply(Serializable.Object obj)
+        public override Object apply(Object genericObj)
         {
-            if (obj != null)
+            if (genericObj != null && genericObj.getType() == "object")
             {
-                Serializable.Object universityObj = null;
-                if (obj.getObject("*") != null)
-                {
-                    universityObj = obj.getObject("*");
-                }
-                else if (obj.getObject(this.m_name) != null)
+                Serializable.Object obj = (Serializable.Object)genericObj;
+                /*
+                 * @FIXME: Wildcard detection doesn't work
+                 */
+                Serializable.Object universityObj = obj.getObject("*");
+                if (obj.getObject(this.m_name) != null)
                 {
                     universityObj = obj.getObject(this.m_name);
                 }
@@ -112,6 +112,7 @@ namespace EducationalInstitution
                             if (campus != null)
                             {
                                 campus.apply(universityObj);
+                                campus.trim(m_campuses);
                             }
                         }
                         else
@@ -217,10 +218,11 @@ namespace EducationalInstitution
             }
             return buildings;
         }
-        public override Serializable.Object apply(Serializable.Object obj)
+        public override Object apply(Object genericObj)
         {
-            if (obj != null)
+            if (genericObj != null && genericObj.getType() == "object")
             {
+                Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object campusObj = null;
                 if (obj.getObject("*") != null)
                 {
@@ -240,6 +242,7 @@ namespace EducationalInstitution
                             if (building != null)
                             {
                                 building.apply((Serializable.Object)i.Item2);
+                                building.trim(m_buildings);
                             }
                         }
                         else
@@ -253,6 +256,27 @@ namespace EducationalInstitution
                             base.set(match, new Serializable.String(replacement));
                         }
                     }
+                }
+            }
+            return this;
+        }
+        public Serializable.Object apply(Campus campus)
+        {
+            this.m_buildings.apply(campus.m_buildings);
+            return this;
+        }
+        public Serializable.Object trim(Serializable.Array siblings)
+        {
+            /*
+             * This object basically canabalizes all other equivilent siblings
+            */
+            for (int i = 0; i < siblings.size(); i++)
+            {
+                Campus currentSibling = (Campus)siblings.get(i);
+                if (currentSibling != this && currentSibling.getName() == m_name)
+                {
+                    this.apply(currentSibling);
+                    siblings.removeAt(i--);
                 }
             }
             return this;
@@ -349,10 +373,11 @@ namespace EducationalInstitution
             }
             return rooms;
         }
-        public override Serializable.Object apply(Serializable.Object obj)
+        public override Object apply(Object genericObj)
         {
-            if (obj != null)
+            if (genericObj != null && genericObj.getType() == "object")
             {
+                Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object buildingObj = null;
                 if (obj.getObject("*") != null)
                 {
@@ -380,6 +405,7 @@ namespace EducationalInstitution
                             if (room != null)
                             {
                                 room.apply(buildingObj);
+                                room.trim(m_rooms);
                             }
                         }
                         else
@@ -399,6 +425,32 @@ namespace EducationalInstitution
                             base.set(i.Item1, new Serializable.String(i.Item2.getValue()));
                         }
                     }
+                }
+            }
+            return this;
+        }
+        public Serializable.Object apply(Building building)
+        {
+            this.m_rooms.apply(building.m_rooms);
+            return this;
+        }
+        public Serializable.Object trim(Serializable.Array siblings)
+        {
+            /*
+             * This object basically canabalizes all other equivilent siblings
+            */
+            for (int i = 0; i < siblings.size(); i++)
+            {
+                Building currentSibling = (Building)siblings.get(i);
+                if (
+                    currentSibling != this &&
+                    currentSibling.getName() == m_name &&
+                    currentSibling.getAcronym() == m_acronym &&
+                    currentSibling.getID() == m_id
+                )
+                {
+                    this.apply(currentSibling);
+                    siblings.removeAt(i--);
                 }
             }
             return this;
@@ -431,10 +483,11 @@ namespace EducationalInstitution
         public int getID() {
             return this.m_id;
         }
-        public override Serializable.Object apply(Serializable.Object obj)
+        public override Object apply(Object genericObj)
         {
-            if (obj != null)
+            if (genericObj != null && genericObj.getType() == "object")
             {
+                Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object roomObj = null;
                 if (obj.getObject("*") != null)
                 {
@@ -470,6 +523,26 @@ namespace EducationalInstitution
                         }
                         base.set(i.Item1, new Serializable.String(i.Item2.getValue()));
                     }
+                }
+            }
+            return this;
+        }
+        public Serializable.Object trim(Serializable.Array siblings)
+        {
+            /*
+             * This object basically canabalizes all other equivilent siblings
+            */
+            for (int i = 0; i < siblings.size(); i++)
+            {
+                Room currentSibling = (Room)siblings.get(i);
+                if (
+                    currentSibling != this &&
+                    currentSibling.getName() == m_name &&
+                    currentSibling.getID() == m_id &&
+                    currentSibling.getRoomNumber() == m_roomNumber
+                )
+                {
+                    siblings.removeAt(i--);
                 }
             }
             return this;

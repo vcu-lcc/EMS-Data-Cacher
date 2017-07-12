@@ -25,6 +25,9 @@ public class Persistence
             .set("Years", new Serializable.Number(0))
         )
         .set("Timeout", new Serializable.Object()
+            /*
+             * @FIXME: Collision with nested object variables
+            */
             .set("Seconds", new Serializable.Number(0))
             .set("Minutes", new Serializable.Number(5))
             .set("Hours", new Serializable.Number(0))

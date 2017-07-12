@@ -40,6 +40,10 @@ namespace Data
                 this.m_value = value;
                 return this;
             }
+            public override bool equal(DataType obj)
+            {
+                return obj != null && obj.getType() == "boolean" && ((Serializable.Boolean)obj).get() == m_value;
+            }
         }
         public class Number : DataType.Primitive
         {
@@ -70,6 +74,10 @@ namespace Data
                 this.m_value = value;
                 return this;
             }
+            public override bool equal(DataType obj)
+            {
+                return obj != null && obj.getType() == "number" && ((Serializable.Number)obj).get() == m_value;
+            }
         }
         public class String : DataType.Primitive
         {
@@ -99,6 +107,14 @@ namespace Data
             {
                 this.m_value = value;
                 return this;
+            }
+            public override bool equal(DataType obj)
+            {
+                if (obj == null && m_value == null)
+                {
+                    return true;
+                }
+                return obj != null && obj.getType() == "string" && ((Serializable.String)obj).get() == m_value;
             }
         }
         public class Array : DataType.Object
@@ -139,6 +155,31 @@ namespace Data
             public virtual int size()
             {
                 return m_children.Count();
+            }
+            public override DataType.Object apply(DataType.Object obj)
+            {
+                if (obj.getType() != "array")
+                {
+                    throw new InvalidCastException("Cannot apply type " + obj.getType() + " on type " + getType());
+                }
+                m_children.AddRange(obj.getChildren());
+                return this;
+            }
+            public override bool equal(DataType obj)
+            {
+                if (obj == null || obj.getType() != "array" || ((Serializable.Array)obj).size() != this.size())
+                {
+                    return false;
+                }
+                List<Tuple<string, DataType>> children = ((Serializable.Array)obj).getChildren();
+                for (int i = 0; i != children.Count; i++)
+                {
+                    if (!children[i].Item2.equal(m_children[i].Item2))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
         }
         public class Object : DataType.Object
@@ -203,14 +244,20 @@ namespace Data
                 return this.get(key) != null && this.get(key).getType() == "object" ?
                     ((Serializable.Object)this.get(key)) : null;
             }
-            public virtual Serializable.Object apply(Serializable.Object obj)
+            public override DataType.Object apply(DataType.Object obj)
             {
+                if (obj.getType() != "object")
+                {
+                    throw new InvalidCastException("Cannot apply type " + obj.getType() + " on type " + getType());
+                }
                 List<Tuple<string, DataType>> children = obj.getChildren();
                 foreach(Tuple<string, DataType> child in children)
                 {
-                    if (child.Item2.getType() == "object" && this.getObject(child.Item1) != null)
+                    if (child.Item2.getType() == "object" && this.getObject(child.Item1) != null
+                        || child.Item2.getType() == "array" && this.getArray(child.Item1) != null
+                        )
                     {
-                        this.getObject(child.Item1).apply((Serializable.Object)child.Item2);
+                        ((DataType.Object)this.get(child.Item1)).apply((DataType.Object)child.Item2);
                     }
                     else
                     {
@@ -230,6 +277,28 @@ namespace Data
                 }
                 return this;
             }
+            public override bool equal(DataType genericObj)
+            {
+                if (genericObj == null ||
+                    genericObj.getType() != "object" ||
+                    genericObj.getChildren().Count != m_children.Count)
+                {
+                    return false;
+                }
+                Serializable.Object obj = (Serializable.Object)genericObj;
+                foreach (Tuple<string, DataType> i in m_children)
+                {
+                    if (obj.get(i.Item1) == null ^ i.Item2 == null)
+                    {
+                        return false;
+                    }
+                    else if (!obj.get(i.Item1).equal(i.Item2))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
 
         public abstract class DataType
@@ -243,6 +312,7 @@ namespace Data
             }
             public abstract class Object : DataType
             {
+                public abstract DataType.Object apply(DataType.Object obj);
                 public override string getValue()
                 {
                     return null;
@@ -255,6 +325,7 @@ namespace Data
 
             public abstract string getType();
             public abstract string getValue();
+            public abstract bool equal(DataType obj);
             public abstract List<Tuple<string, DataType>> getChildren();
         }
     }
