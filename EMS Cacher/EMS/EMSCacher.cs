@@ -5,6 +5,7 @@ using Soap;
 using EducationalInstitution;
 using Data;
 using System.Threading;
+using System.ServiceProcess;
 using System.IO;
 using static Persistence;
 
@@ -16,6 +17,7 @@ namespace EMS_Cacher
         private static int consecutiveTimeouts = 0;
         private static int maxAuxillaryErrors = int.MaxValue;
         private static int auxillaryErrors = 0;
+        private static bool _continue = true;
 
         private static void executeOperation()
         {
@@ -47,19 +49,27 @@ namespace EMS_Cacher
                 console.error(e, "Uncaught Exception on auxilary thread");
                 if (++auxillaryErrors > maxAuxillaryErrors)
                 {
-                    throw e;
+                    console.fatal(e, "Auxillary thread threw exceptions an unacceptable amount of times.", "Program Halted.");
+                    _continue = false;
                 }
             }
         }
-        static void Main(string[] args)
+        public static void start(string[] extraPaths)
         {
             try
             {
-                console.log("Starting EMSCacher on " + DateTime.Now.ToString("MMMM dd, yyyy hh:mm:ss tt"));
-                Config.init(@".\settings.xml");
+                console.log("Starting EMSCacher - " + DateTime.Now.ToString("MMMM dd, yyyy hh:mm:ss tt"));
+                string[] defaultPaths =
+                {
+                    @".\settings.xml"
+                };
+                string[] paths = new string[extraPaths.Length + defaultPaths.Length];
+                defaultPaths.CopyTo(paths, 0);
+                extraPaths.CopyTo(paths, defaultPaths.Length);
+                Config.init(paths);
                 maxConsecutiveTimeouts = (int)config.getNumber("MaxConsecutiveTimeouts");
-                maxAuxillaryErrors = (int)config.getNumber("");
-                while (true)
+                maxAuxillaryErrors = (int)config.getNumber("MaxAuxillaryErrors");
+                while (_continue)
                 {
                     Thread t = new Thread(new ThreadStart(executeOperation));
                     t.Start();
@@ -71,13 +81,25 @@ namespace EMS_Cacher
                         );
                         t.Abort();
                     }
-                    Thread.Sleep(Config.toTimeSpan(config.getObject("Interval")));
+                    if (_continue)
+                    {
+                        console.info(
+                            "Sleeping for " + Config.toTimeSpan(config.getObject("Interval"))
+                                .ToString(@"dd\.hh\:mm\:ss"),
+                            "Waking up at " + (DateTime.Now + Config.toTimeSpan(config.getObject("Interval")))
+                                .ToString("MMMM dd, yyyy hh:mm:ss tt"));
+                        Thread.Sleep(Config.toTimeSpan(config.getObject("Interval")));
+                    }
                 }
             }
-            catch (Exception e)
+            catch (ThreadAbortException)
             {
-                console.fatal(e, "Auxillary thread threw exceptions an exceeding amount of times.");
+                console.info("EMSCacher Halted - " + DateTime.Now.ToString("MMMM dd, yyyy hh:mm:ss tt"));
             }
+        }
+        public static void Main(string[] args)
+        {
+            ServiceBase.Run(new EmsCachingService());
         }
     }
 }

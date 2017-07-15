@@ -50,25 +50,32 @@ public class Persistence
         {
             foreach (string filePath in filePaths)
             {
-                string fileContents = File.ReadAllText(filePath);
-                if (filePath.ToLower().EndsWith(".xml"))
+                try
                 {
-                    XMLDocument xml = XMLDocument.inflate(fileContents);
-                    Serializable.Object obj = (Serializable.Object)Transformations.fromXML(xml);
-                    config.apply(obj);
-                    console.info("Loaded " + filePath);
+                    string fileContents = File.ReadAllText(filePath);
+                    if (filePath.ToLower().EndsWith(".xml"))
+                    {
+                        XMLDocument xml = XMLDocument.inflate(fileContents);
+                        Serializable.Object obj = (Serializable.Object)Transformations.fromXML(xml);
+                        config.apply(obj);
+                        console.info("Loaded " + filePath);
+                    }
+                    else if (filePath.ToLower().EndsWith(".json"))
+                    {
+                        console.info("Loaded " + filePath);
+                        console.error("JSON functionality not implemented yet...");
+                    }
+                    else
+                    {
+                        console.warn(
+                            "Unable to determine MIME type of " + filePath + '.',
+                            "File not loaded."
+                        );
+                    }
                 }
-                else if (filePath.ToLower().EndsWith(".json"))
+                catch (IOException)
                 {
-                    console.info("Loaded " + filePath);
-                    console.error("JSON functionality not implemented yet...");
-                }
-                else
-                {
-                    console.warn(
-                        "Unable to determine MIME type of " + filePath + '.',
-                        "File not loaded."
-                    );
+                    console.warn("Unable to load file " + filePath + '.');
                 }
             }
             console.init();

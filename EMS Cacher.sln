@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS Cacher", "EMS Cacher\EMS Cacher.csproj", "{6CE20A42-564F-406D-97A5-B3CC65B0A75D}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EMS Cacher Setup", "EMS Cacher Setup\EMS Cacher Setup.vdproj", "{EEEF59BE-C879-42DA-AC91-4C06810D696D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6CE20A42-564F-406D-97A5-B3CC65B0A75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CE20A42-564F-406D-97A5-B3CC65B0A75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CE20A42-564F-406D-97A5-B3CC65B0A75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Debug|Any CPU.ActiveCfg = Release
+		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Debug|Any CPU.Build.0 = Release
+		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Release|Any CPU.ActiveCfg = Release
+		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

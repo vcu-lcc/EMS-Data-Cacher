@@ -1,0 +1,9 @@
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Release\settings.xml
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Release\EMS Cacher.exe
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\bin\Release\EMS Cacher.pdb
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS Cacher.csprojResolveAssemblyReference.cache
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS_Cacher.EmsCachingService.resources
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS Cacher.csproj.GenerateResource.Cache
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS Cacher.exe
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS Cacher.pdb
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Release\EMS_Cacher.ProjectInstaller.resources

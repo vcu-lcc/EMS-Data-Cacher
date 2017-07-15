@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.projectInstaller1 = new EMS_Cacher.ProjectInstaller();
             // 
-            // Service1
+            // EmsCachingService
             // 
-            this.ServiceName = "Service1";
+            this.ServiceName = "EMS Cacher";
 
         }
 
         #endregion
+
+        private ProjectInstaller projectInstaller1;
     }
 }

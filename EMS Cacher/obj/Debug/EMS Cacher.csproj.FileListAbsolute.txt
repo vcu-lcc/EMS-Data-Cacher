@@ -6,3 +6,4 @@ C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\
 C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.pdb
 C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS Cacher.csproj.GenerateResource.Cache
 C:\Users\Darren\Documents\Visual Studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS_Cacher.EmsCachingService.resources
+C:\Users\Darren\documents\visual studio 2017\Projects\EMS Cacher\EMS Cacher\obj\Debug\EMS_Cacher.ProjectInstaller.resources
