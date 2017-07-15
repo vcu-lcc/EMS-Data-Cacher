@@ -41,6 +41,7 @@
             // EmsCacherService
             // 
             this.EmsCacherService.DelayedAutoStart = true;
+            this.EmsCacherService.Description = "A periodic parser/cacher for the EMS SOAP API";
             this.EmsCacherService.DisplayName = "EMS Cacher";
             this.EmsCacherService.ServiceName = "EMS Cacher";
             this.EmsCacherService.StartType = System.ServiceProcess.ServiceStartMode.Automatic;

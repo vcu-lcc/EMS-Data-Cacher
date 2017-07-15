@@ -29,5 +29,10 @@ namespace EMS_Cacher
         private void serviceProcessInstaller1_AfterInstall(object sender, InstallEventArgs e)
         {
         }
+
+        protected override void OnBeforeUninstall(IDictionary savedState)
+        {
+            (new ServiceController(this.EmsCacherService.ServiceName)).Stop();
+        }
     }
 }

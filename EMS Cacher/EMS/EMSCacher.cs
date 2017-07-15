@@ -85,8 +85,8 @@ namespace EMS_Cacher
                     {
                         console.info(
                             "Sleeping for " + Config.toTimeSpan(config.getObject("Interval"))
-                                .ToString(@"dd\.hh\:mm\:ss"),
-                            "Waking up at " + (DateTime.Now + Config.toTimeSpan(config.getObject("Interval")))
+                                .ToString("d'd 'h'h 'm'm 's's'"),
+                            "Next scheduled wakeup at " + (DateTime.Now + Config.toTimeSpan(config.getObject("Interval")))
                                 .ToString("MMMM dd, yyyy hh:mm:ss tt"));
                         Thread.Sleep(Config.toTimeSpan(config.getObject("Interval")));
                     }
