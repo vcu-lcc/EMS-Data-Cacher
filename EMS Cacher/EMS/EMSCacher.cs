@@ -25,9 +25,13 @@ namespace EMS_Cacher
             {
                 console.info("Updating all files...");
                 console.log("Obtaining Buildings...");
-                University vcu = EmsMapper.mapUniversity();
-                string xmlConfig = Transformations.toXML(vcu).outerXML();
-                string JSONConfig = Transformations.toJSON(vcu).ToString();
+                University university = EmsMapper.mapUniversity();
+                Serializable.Object config = new Serializable.Object()
+                .set("Universities", new Serializable.Array()
+                    .add(university)
+                );
+                string xmlConfig = Transformations.toXML(config).outerXML();
+                string JSONConfig = Transformations.toJSON(config).ToString();
                 saveFile("vcu.xml", xmlConfig);
                 saveFile("vcu.json", JSONConfig);
                 consecutiveTimeouts = 0;
