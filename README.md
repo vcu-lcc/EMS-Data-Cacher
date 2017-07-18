@@ -14,7 +14,8 @@ Alternatively, download the file at [`./EMS Data Cacher/EMS Cacher Setup/Release
 ### Configuration ###
 
 Search `Configure EMS Cacher Settings` in the start menu and run.
-(Or run `"C:\Program Files (x86)\EMS Cacher\SettingsConfigurator.exe"`).
+
+Alternatively, run `"C:\Program Files (x86)\EMS Cacher\SettingsConfigurator.exe"`.
 
 ### Contact ###
 * Email [chand3@vcu.edu](mailto:chand3@vcu.edu) for any inquiries.
