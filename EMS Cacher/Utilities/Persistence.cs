@@ -8,44 +8,172 @@ using XML;
 
 public class Persistence
 {
-    public static Serializable.Object config = new Serializable.Object()
-        .set("URL", new Serializable.String("http://127.0.0.1/"))
-        .set("Username", new Serializable.String())
-        .set("Password", new Serializable.String())
-        .set("OutputDirectory", new Serializable.String(Path.GetTempPath()))
-        .set("MaxConsecutiveTimeouts", new Serializable.Number(10))
-        .set("MaxAuxillaryErrors", new Serializable.Number(3))
-        .set("Interval", new Serializable.Object()
-            .set("Seconds", new Serializable.Number(0))
-            .set("Minutes", new Serializable.Number(0))
-            .set("Hours", new Serializable.Number(1))
-            .set("Days", new Serializable.Number(0))
-            .set("Weeks", new Serializable.Number(0))
-            .set("Month", new Serializable.Number(0))
-            .set("Years", new Serializable.Number(0))
+    public static Serializable.Object config = null;
+    public static Serializable.Object configDetails = new Serializable.Object()
+        .set("Description", "Configure settings for the EMS Cacher.")
+        .set("Value", new Serializable.Object()
+            .set("URL", new Serializable.Object()
+                .set("Value", "http://127.0.0.1")
+                .set("Description", "The location of EMS api.")
+            )
+            .set("Username", new Serializable.Object()
+                .set("Value", string.Empty)
+                .set("Description", "The EMS API username.")
+            )
+            .set("Password", new Serializable.Object()
+                .set("Value", string.Empty)
+                .set("Description", "The EMS API password.")
+            )
+            .set("OutputDirectory", new Serializable.Object()
+                .set("Value", Path.GetTempPath())
+                .set("Description", "The location to put logs and generated building structure files.")
+            )
+            .set("Interval", new Serializable.Object()
+                .set("Description", "The amount of time to wait to rebuild building structure files.")
+                .set("Value", new Serializable.Object()
+                    .set("Seconds", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Minutes", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Hours", new Serializable.Object()
+                        .set("Value", 1)
+                    )
+                    .set("Days", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Weeks", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Month", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Years", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                )
+                .set("Sealed", true)
+            )
+            .set("Timeout", new Serializable.Object()
+                .set("Description", "The maximum amount of time allocated to rebuild building structure files.")
+                .set("Value", new Serializable.Object()
+                    .set("Seconds", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Minutes", new Serializable.Object()
+                        .set("Value", 5)
+                    )
+                    .set("Hours", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Days", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Weeks", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Month", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                    .set("Years", new Serializable.Object()
+                        .set("Value", 0)
+                    )
+                )
+                .set("Sealed", true)
+            )
+            .set("MaxConsecutiveTimeouts", new Serializable.Object()
+                .set("Value", 5)
+                .set("Description", "The maximum amount of timeouts before logging a fatal message and raising an exception.")
+            )
+            .set("MaxAuxillaryErrors", new Serializable.Object()
+                .set("Value", 3)
+                .set("Description", "The maximum amount of raised errors before logging a fatal message and quiting the program.")
+            )
+            .set("University", new Serializable.Object()
+                .set("Description", "Details of the university.")
+                .set("Value", new Serializable.Object()
+                    .set("Name", new Serializable.Object()
+                        .set("Value", string.Empty)
+                        .set("Description", "The full name of the university.")
+                    )
+                    .set("Acronym", new Serializable.Object()
+                        .set("Value", string.Empty)
+                        .set("Description", "An abbreviation of the university.")
+                    )
+                    .set("Department", new Serializable.Object()
+                        .set("Value", string.Empty)
+                        .set("Description", "The current department that is providing this service.")
+                    )
+                )
+            )
+            .set("LogLevel", new Serializable.Object()
+                .set("Value", "Log")
+                .set("Description", "Options for the log file. Valid options include: None, Error, Warn, Info, Log, Verbose, or All.")
+            )
+            .set("Edit", new Serializable.Object()
+                .set("Value", new Serializable.Object())
+                .set("Description", "Aliases to any component within the university.")
+            )
         )
-        .set("Timeout", new Serializable.Object()
-            /*
-             * @FIXME: Collision with nested object variables
-            */
-            .set("Seconds", new Serializable.Number(0))
-            .set("Minutes", new Serializable.Number(5))
-            .set("Hours", new Serializable.Number(0))
-            .set("Days", new Serializable.Number(0))
-            .set("Weeks", new Serializable.Number(0))
-            .set("Month", new Serializable.Number(0))
-            .set("Years", new Serializable.Number(0))
-        )
-        .set("University", new Serializable.Object()
-            .set("Name", new Serializable.String(""))
-            .set("Acronym", new Serializable.String(""))
-            .set("Department", new Serializable.String(""))
-        )
-        .set("LogLevel", new Serializable.String("Log"))
-        .set("Edit", new Serializable.Object());
+        .set("Sealed", true);
 
     public class Config
     {
+        private static void generateConfig(Serializable.Object configDetails, Serializable.Object output)
+        {
+            foreach (var i in configDetails.getChildren())
+            {
+                Serializable.DataType defaultValue = ((Serializable.Object)i.Item2).get("Value");
+                if (defaultValue is Serializable.Object)
+                {
+                    Serializable.Object temp = new Serializable.Object();
+                    output.set(i.Item1, temp);
+                    generateConfig((Serializable.Object)defaultValue, temp);
+                }
+                else if (defaultValue != null)
+                {
+                    output.set(i.Item1, defaultValue);
+                }
+            }
+        }
+        private static Serializable.DataType addDetails(Serializable.DataType obj)
+        {
+            if (obj is Serializable.Object)
+            {
+                Serializable.Object configObj = (Serializable.Object)obj;
+                var children = configObj.getChildren();
+                for (int i = children.Count - 1; i >= 0; i--)
+                {
+                    configObj.set(children[i].Item1, addDetails(children[i].Item2));
+                }
+            }
+            else if (obj is Serializable.Array)
+            {
+                var children = obj.getChildren();
+                Serializable.Array arr = (Serializable.Array)obj;
+                for (int i = children.Count - 1; i >= 0; i--)
+                {
+                    arr.add(addDetails(children[i].Item2));
+                    arr.removeAt(i + 1);
+                }
+            }
+            return new Serializable.Object().set("Value", obj);
+        }
+        public static Serializable.Object slimify(Serializable.Object obj)
+        {
+            Serializable.Object slimObj = new Serializable.Object();
+            generateConfig(obj.getObject("Value"), slimObj);
+            return slimObj;
+        }
+        public static Serializable.Object fatten(Serializable.Object obj)
+        {
+            return (Serializable.Object)addDetails(obj);
+        }
+        static Config()
+        {
+            config = slimify(configDetails);
+        }
         public static void init(params string[] filePaths)
         {
             foreach (string filePath in filePaths)

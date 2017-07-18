@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using XML;
 using JSON;
-using EducationalInstitution;
-using static Persistence;
 
 namespace Data
 {
@@ -44,6 +42,10 @@ namespace Data
             {
                 return obj != null && obj.getType() == "boolean" && ((Serializable.Boolean)obj).get() == m_value;
             }
+            public override DataType clone()
+            {
+                return new Serializable.Boolean(m_value);
+            }
         }
         public class Number : DataType.Primitive
         {
@@ -77,6 +79,10 @@ namespace Data
             public override bool equal(DataType obj)
             {
                 return obj != null && obj.getType() == "number" && ((Serializable.Number)obj).get() == m_value;
+            }
+            public override DataType clone()
+            {
+                return new Serializable.Number(m_value);
             }
         }
         public class String : DataType.Primitive
@@ -116,6 +122,10 @@ namespace Data
                 }
                 return obj != null && obj.getType() == "string" && ((Serializable.String)obj).get() == m_value;
             }
+            public override DataType clone()
+            {
+                return new Serializable.String(m_value);
+            }
         }
         public class Array : DataType.Object
         {
@@ -128,6 +138,21 @@ namespace Data
             public virtual Array add(DataType value)
             {
                 this.m_children.Add(new Tuple<string, DataType>(null, value));
+                return this;
+            }
+            public virtual Array add(bool value)
+            {
+                this.add(new Serializable.Boolean(value));
+                return this;
+            }
+            public virtual Array add(double value)
+            {
+                this.add(new Serializable.Number(value));
+                return this;
+            }
+            public virtual Array add(string value)
+            {
+                this.add(new Serializable.String(value));
                 return this;
             }
             public virtual Array removeAt(int i)
@@ -181,6 +206,15 @@ namespace Data
                 }
                 return true;
             }
+            public override DataType clone()
+            {
+                Serializable.Array array = new Serializable.Array();
+                foreach (var i in m_children)
+                {
+                    array.add(i.Item2.clone());
+                }
+                return array;
+            }
         }
         public class Object : DataType.Object
         {
@@ -189,6 +223,15 @@ namespace Data
             public override List<Tuple<string, DataType>> getChildren()
             {
                 return this.m_children;
+            }
+            public virtual List<string> keys()
+            {
+                List<string> keys = new List<string>(m_children.Count);
+                for (int i = 0; i != m_children.Count; i++)
+                {
+                    keys.Add(m_children[i].Item1);
+                }
+                return keys;
             }
             public virtual Serializable.Object set(string key, DataType value)
             {
@@ -201,6 +244,21 @@ namespace Data
                     }
                 }
                 this.m_children.Add(new Tuple<string, DataType>(key, value));
+                return this;
+            }
+            public virtual Serializable.Object set(string key, bool value)
+            {
+                this.set(key, new Serializable.Boolean(value));
+                return this;
+            }
+            public virtual Serializable.Object set(string key, double value)
+            {
+                this.set(key, new Serializable.Number(value));
+                return this;
+            }
+            public virtual Serializable.Object set(string key, string value)
+            {
+                this.set(key, new Serializable.String(value));
                 return this;
             }
             public virtual DataType get(string key)
@@ -268,7 +326,7 @@ namespace Data
             }
             public virtual Serializable.Object remove(string key)
             {
-                for (int i = this.m_children.Count - 1; i >= 0; i++)
+                for (int i = this.m_children.Count - 1; i >= 0; i--)
                 {
                     if (this.m_children[i].Item1 == key)
                     {
@@ -299,6 +357,15 @@ namespace Data
                 }
                 return true;
             }
+            public override DataType clone()
+            {
+                Serializable.Object obj = new Serializable.Object();
+                foreach (var i in m_children)
+                {
+                    obj.set(i.Item1, i.Item2.clone());
+                }
+                return obj;
+            }
         }
 
         public abstract class DataType
@@ -326,6 +393,7 @@ namespace Data
             public abstract string getType();
             public abstract string getValue();
             public abstract bool equal(DataType obj);
+            public abstract Serializable.DataType clone();
             public abstract List<Tuple<string, DataType>> getChildren();
         }
     }
@@ -333,7 +401,11 @@ namespace Data
     {
         public static XMLDocument toXML(Serializable.DataType obj)
         {
-            return new XMLDocument(_toXML(obj));
+            return new XMLDocument(new XMLProlog().
+                setAttribute("version", "1.0")
+                .setAttribute("encoding", "utf-8"),
+                _toXML(obj)
+            );
         }
         public static Serializable.DataType fromXML(XMLDocument obj)
         {
@@ -415,7 +487,6 @@ namespace Data
                             break;
                         }
                     default:
-                        console.warn("Unknown XML Tag " + obj.tagName());
                         break;
                 }
                 parsedObjs.Add(parsedObj);

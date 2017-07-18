@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS Cacher", "EMS Cacher\EM
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EMS Cacher Setup", "EMS Cacher Setup\EMS Cacher Setup.vdproj", "{EEEF59BE-C879-42DA-AC91-4C06810D696D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsConfigurator", "SettingsConfigurator\SettingsConfigurator.csproj", "{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Debug|Any CPU.Build.0 = Release
 		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Release|Any CPU.ActiveCfg = Release
 		{EEEF59BE-C879-42DA-AC91-4C06810D696D}.Release|Any CPU.Build.0 = Release
+		{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
