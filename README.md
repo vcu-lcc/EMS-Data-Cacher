@@ -9,7 +9,7 @@ EMS Data Cacher is a Windows service that is able to utilize the EMS API to deli
 ### Setup ###
 This project was developed with Visual Studio (2017), with C#. Simply import this project, compile, and install.
 
-Alternatively, download the file at [`./EMS Data Cacher/EMS Cacher Setup/Release/EMS Cacher Setup.msi`](https://bitbucket.org/vcu/ems-data-cacher/raw/master/EMS%20Cacher%20Setup/Release/EMS%20Cacher%20Setup.msi).
+Alternatively, download the file at [`./EMS Data Cacher/EMS Cacher Setup/Release/EMS Cacher Setup.msi`](https://raw.githubusercontent.com/vcu-lcc/EMS-Data-Cacher/master/EMS%20Cacher%20Setup/Release/EMS%20Cacher%20Setup.msi)..
 
 ### Configuration ###
 
