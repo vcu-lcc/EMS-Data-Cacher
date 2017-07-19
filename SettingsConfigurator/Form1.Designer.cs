@@ -35,14 +35,18 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cancel = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();
-            this.import = new System.Windows.Forms.Button();
             this.apply = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MENU_FILE = new System.Windows.Forms.ToolStripMenuItem();
+            this.MENU_FILE_IMPORT = new System.Windows.Forms.ToolStripMenuItem();
+            this.MENU_FILE_EXPORT = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsManipulator)).BeginInit();
             this.SettingsManipulator.Panel1.SuspendLayout();
             this.SettingsManipulator.Panel2.SuspendLayout();
             this.SettingsManipulator.SuspendLayout();
             this.MainUI.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // SettingsManipulator
@@ -65,7 +69,7 @@
             this.SettingsManipulator.Panel2.Controls.Add(this.ConfigurationPanel);
             this.SettingsManipulator.Panel2.Tag = "";
             this.SettingsManipulator.Panel2MinSize = 150;
-            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 885);
+            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 836);
             this.SettingsManipulator.SplitterDistance = 186;
             this.SettingsManipulator.TabIndex = 0;
             // 
@@ -74,7 +78,7 @@
             this.BrowseAttributePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BrowseAttributePanel.Location = new System.Drawing.Point(0, 0);
             this.BrowseAttributePanel.Name = "BrowseAttributePanel";
-            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 885);
+            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 836);
             this.BrowseAttributePanel.TabIndex = 0;
             // 
             // ConfigurationPanel
@@ -86,7 +90,7 @@
             this.ConfigurationPanel.Location = new System.Drawing.Point(0, 0);
             this.ConfigurationPanel.Name = "ConfigurationPanel";
             this.ConfigurationPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 885);
+            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 836);
             this.ConfigurationPanel.TabIndex = 0;
             // 
             // MainUI
@@ -96,28 +100,28 @@
             this.MainUI.Controls.Add(this.SettingsManipulator, 0, 0);
             this.MainUI.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.MainUI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainUI.Location = new System.Drawing.Point(0, 0);
+            this.MainUI.Location = new System.Drawing.Point(0, 49);
             this.MainUI.Name = "MainUI";
             this.MainUI.RowCount = 2;
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainUI.Size = new System.Drawing.Size(1888, 992);
+            this.MainUI.Size = new System.Drawing.Size(1888, 943);
             this.MainUI.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.cancel, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ok, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.import, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.apply, 4, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 894);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.cancel, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ok, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.apply, 3, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 845);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -127,7 +131,7 @@
             // cancel
             // 
             this.cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.cancel.Location = new System.Drawing.Point(1262, 39);
+            this.cancel.Location = new System.Drawing.Point(1262, 18);
             this.cancel.Margin = new System.Windows.Forms.Padding(10);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(295, 59);
@@ -139,7 +143,7 @@
             // ok
             // 
             this.ok.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ok.Location = new System.Drawing.Point(947, 39);
+            this.ok.Location = new System.Drawing.Point(947, 18);
             this.ok.Margin = new System.Windows.Forms.Padding(10);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(295, 59);
@@ -148,22 +152,10 @@
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
-            // import
-            // 
-            this.import.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.import.Location = new System.Drawing.Point(10, 39);
-            this.import.Margin = new System.Windows.Forms.Padding(10);
-            this.import.Name = "import";
-            this.import.Size = new System.Drawing.Size(295, 59);
-            this.import.TabIndex = 9;
-            this.import.Text = "Import";
-            this.import.UseVisualStyleBackColor = true;
-            this.import.Click += new System.EventHandler(this.import_Click);
-            // 
             // apply
             // 
             this.apply.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.apply.Location = new System.Drawing.Point(1577, 39);
+            this.apply.Location = new System.Drawing.Point(1577, 18);
             this.apply.Margin = new System.Windows.Forms.Padding(10);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(295, 59);
@@ -172,12 +164,48 @@
             this.apply.UseVisualStyleBackColor = true;
             this.apply.Click += new System.EventHandler(this.apply_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MENU_FILE});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1888, 49);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // MENU_FILE
+            // 
+            this.MENU_FILE.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MENU_FILE_IMPORT,
+            this.MENU_FILE_EXPORT});
+            this.MENU_FILE.Name = "MENU_FILE";
+            this.MENU_FILE.Size = new System.Drawing.Size(75, 48);
+            this.MENU_FILE.Text = "File";
+            // 
+            // MENU_FILE_IMPORT
+            // 
+            this.MENU_FILE_IMPORT.Name = "MENU_FILE_IMPORT";
+            this.MENU_FILE_IMPORT.Size = new System.Drawing.Size(326, 46);
+            this.MENU_FILE_IMPORT.Text = "Import";
+            this.MENU_FILE_IMPORT.Click += new System.EventHandler(this.MENU_FILE_IMPORT_Click);
+            // 
+            // MENU_FILE_EXPORT
+            // 
+            this.MENU_FILE_EXPORT.Name = "MENU_FILE_EXPORT";
+            this.MENU_FILE_EXPORT.Size = new System.Drawing.Size(326, 46);
+            this.MENU_FILE_EXPORT.Text = "Export";
+            this.MENU_FILE_EXPORT.Click += new System.EventHandler(this.MENU_FILE_EXPORT_Click);
+            // 
             // EMSCacherConfiguartor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1888, 992);
             this.Controls.Add(this.MainUI);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "EMSCacherConfiguartor";
             this.Text = "EMS Cacher Configuartor";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -187,7 +215,10 @@
             this.SettingsManipulator.ResumeLayout(false);
             this.MainUI.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -199,9 +230,12 @@
         private System.Windows.Forms.TableLayoutPanel MainUI;
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button import;
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem MENU_FILE;
+        private System.Windows.Forms.ToolStripMenuItem MENU_FILE_IMPORT;
+        private System.Windows.Forms.ToolStripMenuItem MENU_FILE_EXPORT;
     }
 }
 

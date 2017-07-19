@@ -277,7 +277,7 @@ namespace SettingsConfigurator
             this.Close();
         }
 
-        private void import_Click(object sender, EventArgs e)
+        private void MENU_FILE_IMPORT_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileBrowser = new OpenFileDialog();
             if (fileBrowser.ShowDialog() == DialogResult.OK)
@@ -308,6 +308,39 @@ namespace SettingsConfigurator
                     );
                 }
                 this.setView(configDetails);
+            }
+        }
+
+        private void MENU_FILE_EXPORT_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "XML Configuration File|*.xml";
+                dialog.Title = "Export configuration file...";
+                dialog.FileName = "settings";
+                dialog.ShowDialog();
+                if (dialog.FileName != "")
+                {
+                    File.WriteAllText(dialog.FileName,
+                        Transformations.toXML(
+                            Persistence.Config.slimify(
+                                this.configDetails
+                            )
+                        ).ToString()
+                    );
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(
+                    err.Message + Environment.NewLine
+                        + "Details:" + Environment.NewLine
+                        + err.StackTrace,
+                    "A fatal error has occured",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }
