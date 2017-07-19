@@ -193,6 +193,28 @@ namespace SettingsConfigurator
             this.setView(configDetails);
         }
 
+        private ServiceController getService(string serviceName)
+        {
+            if (ServiceController.GetServices().Select(i => i.ServiceName).Contains(serviceName))
+            {
+                return null;
+            }
+            ServiceController service = new ServiceController(serviceName);
+            if (service.Status == ServiceControllerStatus.ContinuePending || service.Status == ServiceControllerStatus.StartPending)
+            {
+                service.WaitForStatus(ServiceControllerStatus.Running);
+            }
+            if (service.Status == ServiceControllerStatus.StopPending)
+            {
+                service.WaitForStatus(ServiceControllerStatus.Stopped);
+            }
+            if (service.Status == ServiceControllerStatus.PausePending)
+            {
+                service.WaitForStatus(ServiceControllerStatus.Paused);
+            }
+            return service;
+        }
+
         private void promptServiceRestart()
         {
             if (MessageBox.Show(
@@ -202,19 +224,7 @@ namespace SettingsConfigurator
                 MessageBoxIcon.Asterisk
             ) == DialogResult.Yes)
             {
-                ServiceController sc = new ServiceController(remoteProductName);
-                if (sc.Status == ServiceControllerStatus.ContinuePending || sc.Status == ServiceControllerStatus.StartPending)
-                {
-                    sc.WaitForStatus(ServiceControllerStatus.Running);
-                }
-                if (sc.Status == ServiceControllerStatus.PausePending)
-                {
-                    sc.WaitForStatus(ServiceControllerStatus.Paused);
-                }
-                if (sc.Status == ServiceControllerStatus.StopPending)
-                {
-                    sc.WaitForStatus(ServiceControllerStatus.Stopped);
-                }
+                ServiceController sc = getService(remoteProductName);
                 if (sc.Status != ServiceControllerStatus.Stopped)
                 {
                     sc.Stop();
