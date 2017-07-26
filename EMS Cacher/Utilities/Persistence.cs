@@ -53,7 +53,8 @@ public class Persistence
                         .set("Value", 0)
                     )
                 )
-                .set("Sealed", true)
+                .set("AddPrimitive", false)
+                .set("AddObject", false)
             )
             .set("Timeout", new Serializable.Object()
                 .set("Description", "The maximum amount of time allocated to rebuild building structure files.")
@@ -80,7 +81,8 @@ public class Persistence
                         .set("Value", 0)
                     )
                 )
-                .set("Sealed", true)
+                .set("AddPrimitive", false)
+                .set("AddObject", false)
             )
             .set("MaxConsecutiveTimeouts", new Serializable.Object()
                 .set("Value", 5)
@@ -106,17 +108,43 @@ public class Persistence
                         .set("Description", "The current department that is providing this service.")
                     )
                 )
+                .set("AddPrimitive", true)
+                .set("AddObject", false)
             )
             .set("LogLevel", new Serializable.Object()
-                .set("Value", "Log")
-                .set("Description", "Options for the log file. Valid options include: None, Error, Warn, Info, Log, Verbose, or All.")
+                .set("Description", "Control the information that gets put in EMS cacher's logs.")
+                .set("Value", new Serializable.Object()
+                    .set("Verbose", new Serializable.Object()
+                        .set("Value", false)
+                    )
+                    .set("Log", new Serializable.Object()
+                        .set("Value", true)
+                    )
+                    .set("Info", new Serializable.Object()
+                        .set("Value", true)
+                    )
+                    .set("Warn", new Serializable.Object()
+                        .set("Value", true)
+                    )
+                    .set("Error", new Serializable.Object()
+                        .set("Value", true)
+                    )
+                    .set("Fatal", new Serializable.Object()
+                        .set("Value", true)
+                    )
+                )
+                .set("AddPrimitive", false)
+                .set("AddObject", false)
             )
             .set("Edit", new Serializable.Object()
                 .set("Value", new Serializable.Object())
                 .set("Description", "Aliases to any component within the university.")
+                .set("AddPrimitive", true)
+                .set("AddObject", true)
             )
         )
-        .set("Sealed", true);
+        .set("AddPrimitive", false)
+        .set("AddObject", true);
 
     public class Config
     {
@@ -256,7 +284,6 @@ public class Persistence
     }
     public class console
     {
-        private static int logLevel = int.MaxValue;
         private static Dictionary<string, List<string>> pendingMessages = new Dictionary<string, List<string>>()
         {
             {"verbose", new List<string>()},
@@ -266,33 +293,7 @@ public class Persistence
             {"error", new List<string>()},
             {"fatal", new List<string>()}
         };
-        private static int getLogLevel()
-        {
-            switch (config.getString("LogLevel"))
-            {
-                case "None":
-                    return 0;
-                case "Fatal":
-                    return 1;
-                case "Error":
-                    return 2;
-                case "Warn":
-                    return 3;
-                case "Info":
-                    return 4;
-                case "Log":
-                    return 5;
-                case "Verbose":
-                    return 6;
-                case "All":
-                    return 7;
-                default:
-                    {
-                        console.error("Unknown LogLevel " + config.getString("LogLevel"));
-                        return 7;
-                    }
-            }
-        }
+
         public static void init()
         {
             if (pendingMessages == null)
@@ -302,7 +303,6 @@ public class Persistence
             else
             {
                 console.clear();
-                logLevel = getLogLevel();
                 Dictionary<string, List<string>> currentMessages = pendingMessages;
                 pendingMessages = null;
                 foreach (var pending in currentMessages)
@@ -343,17 +343,6 @@ public class Persistence
                 }
             }
         }
-        private static void _log(string[] messages, char level)
-        {
-            for (int i = 0; i != messages.Length; i++)
-            {
-                messages[i] = level + "| " + string.Join(
-                    Environment.NewLine + level + "| ",
-                    messages[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
-                );
-            }
-            File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
-        }
         public static void verbose(params string[] messages)
         {
             if (pendingMessages != null)
@@ -361,7 +350,7 @@ public class Persistence
                 pendingMessages["verbose"].AddRange(messages);
                 return;
             }
-            if (logLevel > 5)
+            if (config.getObject("LogLevel").getBoolean("Verbose"))
                 _log(messages, 'V');
         }
         public static void log(params string[] messages)
@@ -371,7 +360,7 @@ public class Persistence
                 pendingMessages["log"].AddRange(messages);
                 return;
             }
-            if (logLevel > 4)
+            if (config.getObject("LogLevel").getBoolean("Log"))
                 _log(messages, 'L');
         }
         public static void info(params string[] messages)
@@ -381,7 +370,7 @@ public class Persistence
                 pendingMessages["info"].AddRange(messages);
                 return;
             }
-            if (logLevel > 3)
+            if (config.getObject("LogLevel").getBoolean("Info"))
                 _log(messages, 'I');
         }
         public static void warn(params string[] messages)
@@ -391,7 +380,7 @@ public class Persistence
                 pendingMessages["warn"].AddRange(messages);
                 return;
             }
-            if (logLevel > 2)
+            if (config.getObject("LogLevel").getBoolean("Warn"))
                 _log(messages, 'W');
         }
         public static void error(params string[] messages)
@@ -401,7 +390,7 @@ public class Persistence
                 pendingMessages["error"].AddRange(messages);
                 return;
             }
-            if (logLevel > 1)
+            if (config.getObject("LogLevel").getBoolean("Error"))
                 _log(messages, 'E');
         }
         public static void error(Exception e, params string[] messages)
@@ -415,7 +404,7 @@ public class Persistence
                 );
                 return;
             }
-            if (logLevel > 1)
+            if (config.getObject("LogLevel").getBoolean("Error"))
             {
                 _log(messages, 'E');
                 console.error(
@@ -431,7 +420,7 @@ public class Persistence
                 pendingMessages["fatal"].AddRange(messages);
                 return;
             }
-            if (logLevel > 0)
+            if (config.getObject("LogLevel").getBoolean("Fatal"))
                 _log(messages, 'F');
         }
         public static void fatal(Exception e, params string[] messages)
@@ -445,7 +434,7 @@ public class Persistence
                 );
                 return;
             }
-            if (logLevel > 0)
+            if (config.getObject("LogLevel").getBoolean("Fatal"))
             {
                 _log(messages, 'F');
                 console.fatal(
@@ -457,6 +446,17 @@ public class Persistence
         public static void clear()
         {
             File.Delete(config.getString("OutputDirectory") + @"\log.txt");
+        }
+        private static void _log(string[] messages, char level)
+        {
+            for (int i = 0; i != messages.Length; i++)
+            {
+                messages[i] = level + "| " + string.Join(
+                    Environment.NewLine + level + "| ",
+                    messages[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
+                );
+            }
+            File.AppendAllLines(config.getString("OutputDirectory") + @"\log.txt", messages);
         }
     }
     public static void saveFile(string fileName, string data)

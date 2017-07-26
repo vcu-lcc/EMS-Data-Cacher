@@ -89,7 +89,7 @@ namespace SettingsConfigurator
                             ((Serializable.Object)i.Item2).set("Value", box.Checked);
                         };
                         table.Controls.Add(label, 0, currRow);
-                        table.Controls.Add(box, 0, currRow++);
+                        table.Controls.Add(box, 1, currRow++);
                     }
                     else if (value is Serializable.Number)
                     {
@@ -231,7 +231,7 @@ namespace SettingsConfigurator
 
         private ServiceController getService(string serviceName)
         {
-            if (ServiceController.GetServices().Select(i => i.ServiceName).Contains(serviceName))
+            if (!ServiceController.GetServices().Select(i => i.ServiceName).Contains(serviceName))
             {
                 return null;
             }
@@ -261,12 +261,24 @@ namespace SettingsConfigurator
             ) == DialogResult.Yes)
             {
                 ServiceController sc = getService(remoteProductName);
-                if (sc.Status != ServiceControllerStatus.Stopped)
+                if (sc == null)
                 {
-                    sc.Stop();
+                    MessageBox.Show(
+                        "Unable to restart " + remoteProductName + "." + Environment.NewLine
+                            + "The specified service does not exist.", "Alert",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                 }
-                sc.WaitForStatus(ServiceControllerStatus.Stopped);
-                sc.Start();
+                else
+                {
+                    if (sc.Status != ServiceControllerStatus.Stopped)
+                    {
+                        sc.Stop();
+                        sc.WaitForStatus(ServiceControllerStatus.Stopped);
+                    }
+                    sc.Start();
+                }
             }
         }
 
