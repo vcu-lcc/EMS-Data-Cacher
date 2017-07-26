@@ -181,20 +181,20 @@
             this.MENU_FILE_IMPORT,
             this.MENU_FILE_EXPORT});
             this.MENU_FILE.Name = "MENU_FILE";
-            this.MENU_FILE.Size = new System.Drawing.Size(75, 48);
+            this.MENU_FILE.Size = new System.Drawing.Size(75, 45);
             this.MENU_FILE.Text = "File";
             // 
             // MENU_FILE_IMPORT
             // 
             this.MENU_FILE_IMPORT.Name = "MENU_FILE_IMPORT";
-            this.MENU_FILE_IMPORT.Size = new System.Drawing.Size(326, 46);
+            this.MENU_FILE_IMPORT.Size = new System.Drawing.Size(222, 46);
             this.MENU_FILE_IMPORT.Text = "Import";
             this.MENU_FILE_IMPORT.Click += new System.EventHandler(this.MENU_FILE_IMPORT_Click);
             // 
             // MENU_FILE_EXPORT
             // 
             this.MENU_FILE_EXPORT.Name = "MENU_FILE_EXPORT";
-            this.MENU_FILE_EXPORT.Size = new System.Drawing.Size(326, 46);
+            this.MENU_FILE_EXPORT.Size = new System.Drawing.Size(222, 46);
             this.MENU_FILE_EXPORT.Text = "Export";
             this.MENU_FILE_EXPORT.Click += new System.EventHandler(this.MENU_FILE_EXPORT_Click);
             // 
@@ -226,7 +226,6 @@
 
         private System.Windows.Forms.SplitContainer SettingsManipulator;
         private System.Windows.Forms.TreeView BrowseAttributePanel;
-        private System.Windows.Forms.FlowLayoutPanel ConfigurationPanel;
         private System.Windows.Forms.TableLayoutPanel MainUI;
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -236,6 +235,7 @@
         private System.Windows.Forms.ToolStripMenuItem MENU_FILE;
         private System.Windows.Forms.ToolStripMenuItem MENU_FILE_IMPORT;
         private System.Windows.Forms.ToolStripMenuItem MENU_FILE_EXPORT;
+        private System.Windows.Forms.FlowLayoutPanel ConfigurationPanel;
     }
 }
 

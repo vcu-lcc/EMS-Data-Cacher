@@ -56,61 +56,86 @@ namespace SettingsConfigurator
                 description.AutoSize = true;
                 pane.Controls.Add(description);
             }
-            Serializable.DataType value = props.get("Value");
-            if (value == null)
+            Serializable.DataType children = props.get("Value");
+            TableLayoutPanel table = new TableLayoutPanel();
+            table.AutoSize = true;
+            int currRow = 0;
+            foreach (var i in children.getChildren())
             {
-                return;
-            }
-            if (value is Serializable.Object || value is Serializable.Array)
-            {
-            }
-            else
-            {
-                if (value is Serializable.Boolean)
+                Serializable.DataType value = ((Serializable.Object)i.Item2).get("Value");
+                if (value != null)
                 {
-                    CheckBox box = new CheckBox();
-                    box.Checked = ((Serializable.Boolean)value).get();
-                    box.Text = "Value";
-                    pane.Controls.Add(box);
-                    box.CheckedChanged += delegate (Object _sender, EventArgs _e)
+                    Label label = new Label();
+                    label.AutoSize = true;
+                    label.TextAlign = ContentAlignment.MiddleLeft;
+                    label.Dock = DockStyle.Fill;
+                    label.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom;
+                    label.Text = i.Item1 == null ? currRow.ToString() : i.Item1;
+                    Serializable.DataType description = ((Serializable.Object)i.Item2).get("Description");
+                    if (description != null && !string.IsNullOrEmpty(description.getValue()))
                     {
-                        this.saved = false;
-                        props.set("Value", box.Checked);
-                    };
-                }
-                else if (value is Serializable.Number)
-                {
-                    TextBox box = new TextBox();
-                    box.Text = value.getValue();
-                    box.Width = 100;
-                    box.TextChanged += delegate (Object _sender, EventArgs _e) {
-                        this.saved = false;
-                        double num;
-                        if (Double.TryParse(box.Text, out num))
-                        {
-                            box.BackColor = SystemColors.Window;
-                            props.set("Value", num);
-                        }
-                        else
-                        {
-                            box.BackColor = Color.Red;
-                        }
-                    };
-                    pane.Controls.Add(box);
-                }
-                else if (value is Serializable.String)
-                {
-                    TextBox box = new TextBox();
-                    box.Text = value.getValue();
-                    box.Width = 200;
-                    pane.Controls.Add(box);
-                    box.TextChanged += delegate (Object _sender, EventArgs _e)
+                        ToolTip hint = new ToolTip();
+                        hint.SetToolTip(label, description.getValue());
+                    }
+                    if (value is Serializable.Boolean)
                     {
-                        this.saved = false;
-                        props.set("Value", box.Text);
-                    };
+                        CheckBox box = new CheckBox();
+                        box.Dock = DockStyle.Fill;
+                        box.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom;
+                        box.Checked = ((Serializable.Boolean)value).get();
+                        box.CheckedChanged += delegate (Object _sender, EventArgs _e)
+                        {
+                            this.saved = false;
+                            ((Serializable.Object)i.Item2).set("Value", box.Checked);
+                        };
+                        table.Controls.Add(label, 0, currRow);
+                        table.Controls.Add(box, 0, currRow++);
+                    }
+                    else if (value is Serializable.Number)
+                    {
+                        TextBox box = new TextBox();
+                        box.Dock = DockStyle.Fill;
+                        box.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom;
+                        box.Text = value.getValue();
+                        box.Width = 100;
+                        box.TextChanged += delegate (Object _sender, EventArgs _e) {
+                            this.saved = false;
+                            double num;
+                            if (Double.TryParse(box.Text, out num))
+                            {
+                                box.BackColor = SystemColors.Window;
+                                ((Serializable.Object)i.Item2).set("Value", num);
+                            }
+                            else
+                            {
+                                box.BackColor = Color.Red;
+                            }
+                        };
+                        table.Controls.Add(label, 0, currRow);
+                        table.Controls.Add(box, 1, currRow++);
+                    }
+                    else if (value is Serializable.String)
+                    {
+                        TextBox box = new TextBox();
+                        box.Dock = DockStyle.Fill;
+                        box.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom;
+                        box.Text = value.getValue();
+                        box.Width = 200;
+                        box.TextChanged += delegate (Object _sender, EventArgs _e)
+                        {
+                            this.saved = false;
+                            ((Serializable.Object)i.Item2).set("Value", box.Text);
+                        };
+                        table.Controls.Add(label, 0, currRow);
+                        table.Controls.Add(box, 1, currRow++);
+                    }
                 }
             }
+            ColumnStyle nameStyle = new ColumnStyle(SizeType.AutoSize);
+            table.ColumnStyles.Add(nameStyle);
+            ColumnStyle fieldStyle = new ColumnStyle(SizeType.AutoSize);
+            table.ColumnStyles.Add(fieldStyle);
+            pane.Controls.Add(table);
         }
 
         private void setView(Serializable.Object details, TreeNode branch)
@@ -121,10 +146,17 @@ namespace SettingsConfigurator
             {
                 foreach (var i in value.getChildren())
                 {
-                    TreeNode label = new TreeNode(i.Item1);
-                    label.Tag = i.Item2;
-                    branch.Nodes.Add(label);
-                    setView((Serializable.Object)i.Item2, label);
+                    if (i.Item2 != null && ((Serializable.Object)i.Item2).get("Value") is Serializable.Object)
+                    {
+                        Serializable.DataType childValue = ((Serializable.Object)i.Item2).get("Value");
+                        if (childValue is Serializable.Object || childValue is Serializable.Array)
+                        {
+                            TreeNode label = new TreeNode(i.Item1);
+                            label.Tag = i.Item2;
+                            branch.Nodes.Add(label);
+                            setView((Serializable.Object)i.Item2, label);
+                        }
+                    }
                 }
             }
             else if (value is Serializable.Array)
@@ -132,14 +164,18 @@ namespace SettingsConfigurator
                 var children = value.getChildren();
                 for (int i = 0; i != children.Count; i++)
                 {
-                    TreeNode label = new TreeNode(i.ToString());
-                    label.Tag = children[i].Item2;
-                    branch.Nodes.Add(label);
-                    setView((Serializable.Object)children[i].Item2, label);
+                    if (children[i].Item2 != null && ((Serializable.Object)children[i].Item2).get("Value") is Serializable.Object)
+                    {
+                        Serializable.DataType childValue = ((Serializable.Object)children[i].Item2).get("Value");
+                        if (children[i].Item2 is Serializable.Object || children[i].Item2 is Serializable.Array)
+                        {
+                            TreeNode label = new TreeNode(i.ToString());
+                            label.Tag = children[i].Item2;
+                            branch.Nodes.Add(label);
+                            setView((Serializable.Object)children[i].Item2, label);
+                        }
+                    }
                 }
-            }
-            else if (value != null)
-            {
             }
         }
 
