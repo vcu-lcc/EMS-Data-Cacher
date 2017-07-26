@@ -20,7 +20,7 @@ namespace EMS_Cacher
 
         private ServiceController getService(string serviceName)
         {
-            if (ServiceController.GetServices().Select(i => i.ServiceName).Contains(serviceName))
+            if (!ServiceController.GetServices().Select(i => i.ServiceName).Contains(serviceName))
             {
                 return null;
             }
