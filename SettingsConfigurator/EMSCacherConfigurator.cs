@@ -195,17 +195,29 @@ namespace SettingsConfigurator
             {
                 try
                 {
-                    this.configDetails.apply(
-                        Persistence.Config.fatten(
-                            (Serializable.Object)Transformations.fromXML(
-                                XMLDocument.inflate(
-                                    File.ReadAllText(
-                                        fileBrowser.FileName
-                                    )
+                    Serializable.Object fattenedObj = Persistence.Config.fatten(
+                        (Serializable.Object)Transformations.fromXML(
+                            XMLDocument.inflate(
+                                File.ReadAllText(
+                                    fileBrowser.FileName
                                 )
                             )
                         )
                     );
+                    if (
+                        MessageBox.Show(
+                            "Do you want to merge the new config with the current configuration?",
+                            "Alert",
+                            MessageBoxButtons.YesNo
+                        ) == DialogResult.Yes
+                    )
+                    {
+                        this.configDetails.apply(fattenedObj);
+                    }
+                    else
+                    {
+                        this.configDetails = fattenedObj;
+                    }
                 }
                 catch (Exception err)
                 {
