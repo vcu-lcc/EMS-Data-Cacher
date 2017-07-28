@@ -183,7 +183,7 @@ public class Persistence
                 for (int i = children.Count - 1; i >= 0; i--)
                 {
                     arr.add(addDetails(children[i].Item2));
-                    arr.removeAt(i + 1);
+                    arr.removeAt(i);
                 }
             }
             return new Serializable.Object().set("Value", obj);
@@ -245,31 +245,31 @@ public class Persistence
             }
             try
             {
-                if (timeObj.getType("Years") == "number")
+                if (timeObj.get("Years") is Serializable.Number)
                 {
                     span += TimeSpan.FromDays(365 * timeObj.getNumber("Years"));
                 }
-                if (timeObj.getType("Months") == "number")
+                if (timeObj.get("Months") is Serializable.Number)
                 {
                     span += TimeSpan.FromDays(30 * timeObj.getNumber("Months"));
                 }
-                if (timeObj.getType("Weeks") == "number")
+                if (timeObj.get("Weeks") is Serializable.Number)
                 {
                     span += TimeSpan.FromDays(7 * timeObj.getNumber("Weeks"));
                 }
-                if (timeObj.getType("Days") == "number")
+                if (timeObj.get("Days") is Serializable.Number)
                 {
                     span += TimeSpan.FromDays(timeObj.getNumber("Days"));
                 }
-                if (timeObj.getType("Hours") == "number")
+                if (timeObj.get("Hours") is Serializable.Number)
                 {
                     span += TimeSpan.FromHours(timeObj.getNumber("Hours"));
                 }
-                if (timeObj.getType("Minutes") == "number")
+                if (timeObj.get("Minutes") is Serializable.Number)
                 {
                     span += TimeSpan.FromMinutes(timeObj.getNumber("Minutes"));
                 }
-                if (timeObj.getType("Seconds") == "number")
+                if (timeObj.get("Seconds") is Serializable.Number)
                 {
                     span += TimeSpan.FromSeconds(timeObj.getNumber("Seconds"));
                 }

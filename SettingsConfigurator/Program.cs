@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Data;
 
 namespace SettingsConfigurator
 {
@@ -29,7 +30,7 @@ namespace SettingsConfigurator
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new EMSCacherConfiguartor());
+                Application.Run(new EMSCacherConfigurator());
             }
         }
     }

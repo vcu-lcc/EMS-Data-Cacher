@@ -40,7 +40,7 @@ namespace Data
             }
             public override bool equal(DataType obj)
             {
-                return obj != null && obj.getType() == "boolean" && ((Serializable.Boolean)obj).get() == m_value;
+                return obj != null && obj is Boolean && ((Boolean)obj).get() == m_value;
             }
             public override DataType clone()
             {
@@ -78,7 +78,7 @@ namespace Data
             }
             public override bool equal(DataType obj)
             {
-                return obj != null && obj.getType() == "number" && ((Serializable.Number)obj).get() == m_value;
+                return obj != null && obj is Number && ((Number)obj).get() == m_value;
             }
             public override DataType clone()
             {
@@ -120,7 +120,7 @@ namespace Data
                 {
                     return true;
                 }
-                return obj != null && obj.getType() == "string" && ((Serializable.String)obj).get() == m_value;
+                return obj != null && obj is String && ((String)obj).get() == m_value;
             }
             public override DataType clone()
             {
@@ -183,7 +183,7 @@ namespace Data
             }
             public override DataType.Object apply(DataType.Object obj)
             {
-                if (obj.getType() != "array")
+                if (!(obj is Array))
                 {
                     throw new InvalidCastException("Cannot apply type " + obj.getType() + " on type " + getType());
                 }
@@ -192,7 +192,7 @@ namespace Data
             }
             public override bool equal(DataType obj)
             {
-                if (obj == null || obj.getType() != "array" || ((Serializable.Array)obj).size() != this.size())
+                if (obj == null || !(obj is Array) || ((Array)obj).size() != this.size())
                 {
                     return false;
                 }
@@ -279,41 +279,40 @@ namespace Data
             }
             public virtual bool getBoolean(string key)
             {
-                return this.get(key) != null && this.get(key).getType() == "boolean" ?
-                    ((Serializable.Boolean)this.get(key)).get() : false;
+                return this.get(key) != null && this.get(key) is Boolean ?
+                    ((Boolean)this.get(key)).get() : false;
             }
             public virtual double getNumber(string key)
             {
-                return this.get(key) != null && this.get(key).getType() == "number" ?
-                    ((Serializable.Number)this.get(key)).get() : Double.NaN;
+                return this.get(key) != null && this.get(key) is Number ?
+                    ((Number)this.get(key)).get() : Double.NaN;
             }
             public virtual string getString(string key)
             {
-                return this.get(key) != null && this.get(key).getType() == "string" ?
-                    ((Serializable.String)this.get(key)).get() : null;
+                return this.get(key) != null && this.get(key) is String ?
+                    ((String)this.get(key)).get() : null;
             }
             public virtual Serializable.Array getArray(string key)
             {
-                return this.get(key) != null && this.get(key).getType() == "array" ?
-                    ((Serializable.Array)this.get(key)) : null;
+                return this.get(key) != null && this.get(key) is Array ?
+                    ((Array)this.get(key)) : null;
             }
             public virtual Serializable.Object getObject(string key)
             {
-                return this.get(key) != null && this.get(key).getType() == "object" ?
+                return this.get(key) != null && this.get(key) is Serializable.Object ?
                     ((Serializable.Object)this.get(key)) : null;
             }
             public override DataType.Object apply(DataType.Object obj)
             {
-                if (obj.getType() != "object")
+                if (!(obj is Serializable.Object))
                 {
                     throw new InvalidCastException("Cannot apply type " + obj.getType() + " on type " + getType());
                 }
                 List<Tuple<string, DataType>> children = obj.getChildren();
                 foreach(Tuple<string, DataType> child in children)
                 {
-                    if (child.Item2.getType() == "object" && this.getObject(child.Item1) != null
-                        || child.Item2.getType() == "array" && this.getArray(child.Item1) != null
-                        )
+                    if (child.Item2 is DataType.Object &&
+                        (this.getObject(child.Item1) != null || this.getArray(child.Item1) != null))
                     {
                         ((DataType.Object)this.get(child.Item1)).apply((DataType.Object)child.Item2);
                     }
@@ -338,7 +337,7 @@ namespace Data
             public override bool equal(DataType genericObj)
             {
                 if (genericObj == null ||
-                    genericObj.getType() != "object" ||
+                    genericObj is Serializable.Object ||
                     genericObj.getChildren().Count != m_children.Count)
                 {
                     return false;
@@ -414,35 +413,30 @@ namespace Data
 
         private static XMLElement _toXML(Serializable.DataType var)
         {
-            switch (var.getType())
+            if (var is Serializable.DataType.Primitive)
             {
-                case "boolean":
-                case "number":
-                case "string":
-                    {
-                        return new XMLElement(var.getType()).text(var.getValue());
-                    }
-                case "array":
-                    {
-                        XMLElement root = new XMLElement(var.getType());
-                        foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
-                        {
-                            root.append(_toXML(children.Item2));
-                        }
-                        return root;
-                    }
-                case "object":
-                default:
-                    {
-                        XMLElement root = new XMLElement(var.getType());
-                        foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
-                        {
-                            XMLElement child = _toXML(children.Item2);
-                            root.append(child.setAttribute("name", children.Item1));
-                        }
-                        return root;
-                    }
+                return new XMLElement(var.getType()).text(var.getValue());
             }
+            else if (var is Serializable.Array)
+            {
+                XMLElement root = new XMLElement(var.getType());
+                foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
+                {
+                    root.append(_toXML(children.Item2));
+                }
+                return root;
+            }
+            else if (var is Serializable.Object)
+            {
+                XMLElement root = new XMLElement(var.getType());
+                foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
+                {
+                    XMLElement child = _toXML(children.Item2);
+                    root.append(child.setAttribute("name", children.Item1));
+                }
+                return root;
+            }
+            return null;
         }
         private static List<Serializable.DataType> _fromXML(List<XMLElement> objs)
         {
@@ -450,80 +444,71 @@ namespace Data
             foreach (var obj in objs)
             {
                 Serializable.DataType parsedObj = null;
-                switch (obj.tagName())
+                string type = obj.tagName();
+                if (type == new Serializable.Boolean().getType())
                 {
-                    case "boolean":
-                        parsedObj = new Serializable.Boolean(Boolean.Parse(obj.text()));
-                        break;
-                    case "number":
-                        parsedObj = new Serializable.Number(Int32.Parse(obj.text()));
-                        break;
-                    case "string":
-                        parsedObj = new Serializable.String(obj.text());
-                        break;
-                    case "array":
-                        {
-                            parsedObj = new Serializable.Array();
-                            List<Serializable.DataType> children = _fromXML(obj.children());
-                            foreach (Serializable.DataType child in children)
-                            {
-                                ((Serializable.Array)parsedObj).add(child);
-                            }
-                            break;
-                        }
-                    case "object":
-                        {
-                            parsedObj = new Serializable.Object();
-                            List<XMLElement> xmlChildren = obj.children();
-                            List<Serializable.DataType> children = _fromXML(xmlChildren);
-                            for (int i = 0; i != children.Count; i++)
-                            {
-                                ((Serializable.Object)parsedObj).set(xmlChildren[i].getAttribute("name"), children[i]);
-                            }
-                            break;
-                        }
-                    case "comment":
-                        {
-                            break;
-                        }
-                    default:
-                        break;
+                    parsedObj = new Serializable.Boolean(Boolean.Parse(obj.text()));
                 }
-                parsedObjs.Add(parsedObj);
+                else if (type == new Serializable.Number().getType())
+                {
+                    parsedObj = new Serializable.Number(Int32.Parse(obj.text()));
+                }
+                else if (type == new Serializable.String().getType())
+                {
+                    parsedObj = new Serializable.String(obj.text());
+                }
+                else if (type == new Serializable.Array().getType())
+                {
+                    parsedObj = new Serializable.Array();
+                    List<Serializable.DataType> children = _fromXML(obj.children());
+                    foreach (Serializable.DataType child in children)
+                    {
+                        ((Serializable.Array)parsedObj).add(child);
+                    }
+                }
+                else if (type == new Serializable.Object().getType())
+                {
+                    parsedObj = new Serializable.Object();
+                    List<XMLElement> xmlChildren = obj.children();
+                    List<Serializable.DataType> children = _fromXML(xmlChildren);
+                    for (int i = 0; i != children.Count; i++)
+                    {
+                        ((Serializable.Object)parsedObj).set(xmlChildren[i].getAttribute("name"), children[i]);
+                    }
+                }
+                if (parsedObj != null)
+                {
+                    parsedObjs.Add(parsedObj);
+                }
             }
             return parsedObjs;
         }
 
         public static JSONValue toJSON(Serializable.DataType var)
         {
-            switch (var.getType())
+            if (var is Serializable.DataType.Primitive)
             {
-                case "boolean":
-                case "number":
-                case "string":
-                    {
-                        return new JSONValue(var.getType(), var.getValue());
-                    }
-                case "array":
-                    {
-                        JSONArray array = new JSONArray();
-                        foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
-                        {
-                            array.add(toJSON(children.Item2));
-                        }
-                        return array;
-                    }
-                case "object":
-                default:
-                    {
-                        JSONObject root = new JSONObject();
-                        foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
-                        {
-                            root.set(children.Item1, toJSON(children.Item2));
-                        }
-                        return root;
-                    }
+                return new JSONValue(var.getType(), var.getValue());
             }
+            else if (var is Serializable.Array)
+            {
+                JSONArray array = new JSONArray();
+                foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
+                {
+                    array.add(toJSON(children.Item2));
+                }
+                return array;
+            }
+            else if (var is Serializable.Object)
+            {
+                JSONObject root = new JSONObject();
+                foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
+                {
+                    root.set(children.Item1, toJSON(children.Item2));
+                }
+                return root;
+            }
+            return null;
         }
     }
 }

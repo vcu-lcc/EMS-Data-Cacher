@@ -19,9 +19,9 @@ namespace SettingsConfigurator
         public override void Uninstall(IDictionary savedState)
         {
             base.Uninstall(savedState);
-            if (Directory.Exists(EMSCacherConfiguartor.programData))
+            if (Directory.Exists(EMSCacherConfigurator.programData))
             {
-                Directory.Delete(EMSCacherConfiguartor.programData, true);
+                Directory.Delete(EMSCacherConfigurator.programData, true);
             }
         }
     }

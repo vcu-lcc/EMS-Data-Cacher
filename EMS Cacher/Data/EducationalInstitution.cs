@@ -87,7 +87,7 @@ namespace EducationalInstitution
         }
         public override Object apply(Object genericObj)
         {
-            if (genericObj != null && genericObj.getType() == "object")
+            if (genericObj != null && genericObj is Serializable.Object)
             {
                 Serializable.Object obj = (Serializable.Object)genericObj;
                 /*
@@ -106,7 +106,7 @@ namespace EducationalInstitution
                 {
                     foreach (var i in universityObj.getChildren())
                     {
-                        if (i.Item2.getType() == "object")
+                        if (i.Item2 is Serializable.Object)
                         {
                             Campus campus = this.getCampus(i.Item1);
                             if (campus != null)
@@ -220,7 +220,7 @@ namespace EducationalInstitution
         }
         public override Object apply(Object genericObj)
         {
-            if (genericObj != null && genericObj.getType() == "object")
+            if (genericObj != null && genericObj is Serializable.Object)
             {
                 Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object campusObj = null;
@@ -236,7 +236,7 @@ namespace EducationalInstitution
                 {
                     foreach (var i in campusObj.getChildren())
                     {
-                        if (i.Item2.getType() == "object")
+                        if (i.Item2 is Serializable.Object)
                         {
                             Building building = this.getBuilding(i.Item1);
                             if (building != null)
@@ -375,7 +375,7 @@ namespace EducationalInstitution
         }
         public override Object apply(Object genericObj)
         {
-            if (genericObj != null && genericObj.getType() == "object")
+            if (genericObj != null && genericObj is Serializable.Object)
             {
                 Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object buildingObj = null;
@@ -399,7 +399,7 @@ namespace EducationalInstitution
                 {
                     foreach (var i in buildingObj.getChildren())
                     {
-                        if (i.Item2.getType() == "object")
+                        if (i.Item2 is Serializable.Object)
                         {
                             Room room = this.getRoom(i.Item1);
                             if (room != null)
@@ -485,7 +485,7 @@ namespace EducationalInstitution
         }
         public override Object apply(Object genericObj)
         {
-            if (genericObj != null && genericObj.getType() == "object")
+            if (genericObj != null && genericObj is Serializable.Object)
             {
                 Serializable.Object obj = (Serializable.Object)genericObj;
                 Serializable.Object roomObj = null;

@@ -1,6 +1,6 @@
 ﻿namespace SettingsConfigurator
 {
-    partial class EMSCacherConfiguartor
+    partial class EMSCacherConfigurator
     {
         /// <summary>
         /// Required designer variable.

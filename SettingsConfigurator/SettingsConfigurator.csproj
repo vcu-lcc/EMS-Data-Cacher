@@ -78,11 +78,12 @@
     <Compile Include="..\EMS Cacher\Utilities\Persistence.cs">
       <Link>Persistence.cs</Link>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="DetailsPanel.cs" />
+    <Compile Include="EMSCacherConfigurator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="EMSCacherConfigurator.Designer.cs">
+      <DependentUpon>EMSCacherConfigurator.cs</DependentUpon>
     </Compile>
     <Compile Include="Install.cs">
       <SubType>Component</SubType>
@@ -92,8 +93,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AttributesBrowser.cs" />
+    <Compile Include="ValueGrabber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ValueGrabber.Designer.cs">
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="EMSCacherConfigurator.resx">
+      <DependentUpon>EMSCacherConfigurator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -104,6 +112,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ValueGrabber.resx">
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
