@@ -25,10 +25,6 @@ namespace Data
             {
                 return this.m_value ? "true" : "false";
             }
-            public override string getType()
-            {
-                return "boolean";
-            }
             public bool get()
             {
                 return this.m_value;
@@ -67,10 +63,6 @@ namespace Data
             {
                 return this.m_value;
             }
-            public override string getType()
-            {
-                return "number";
-            }
             public Number setValue(double value)
             {
                 this.m_value = value;
@@ -104,10 +96,6 @@ namespace Data
             public string get()
             {
                 return this.m_value;
-            }
-            public override string getType()
-            {
-                return "string";
             }
             public String setValue(string value)
             {
@@ -172,10 +160,6 @@ namespace Data
                     children.Add(i.Item2);
                 }
                 return children;
-            }
-            public override string getType()
-            {
-                return "array";
             }
             public virtual int size()
             {
@@ -383,13 +367,12 @@ namespace Data
                 {
                     return null;
                 }
-                public override string getType()
-                {
-                    return "object";
-                }
             }
 
-            public abstract string getType();
+            public virtual string getType()
+            {
+                return this.GetType().Name;
+            }
             public abstract string getValue();
             public abstract bool equal(DataType obj);
             public abstract Serializable.DataType clone();
