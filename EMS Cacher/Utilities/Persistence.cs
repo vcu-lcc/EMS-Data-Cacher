@@ -148,24 +148,30 @@ public class Persistence
 
     public class Config
     {
-        private static void generateConfig(Serializable.Object configDetails, Serializable.Object output)
+        public static Serializable.DataType slimify(Serializable.DataType fatConfig)
         {
-            foreach (var i in configDetails.getChildren())
+            Serializable.DataType defaultValue = ((Serializable.Object)fatConfig).get("Value");
+            if (defaultValue is Serializable.Object)
             {
-                Serializable.DataType defaultValue = ((Serializable.Object)i.Item2).get("Value");
-                if (defaultValue is Serializable.Object)
+                Serializable.Object slimObj = new Serializable.Object();
+                foreach (var i in defaultValue.getChildren())
                 {
-                    Serializable.Object temp = new Serializable.Object();
-                    output.set(i.Item1, temp);
-                    generateConfig((Serializable.Object)defaultValue, temp);
+                    slimObj.set(i.Item1, slimify(i.Item2));
                 }
-                else if (defaultValue != null)
-                {
-                    output.set(i.Item1, defaultValue);
-                }
+                return slimObj;
             }
+            else if (defaultValue is Serializable.Array)
+            {
+                Serializable.Array slimArr = new Serializable.Array();
+                foreach (var i in defaultValue.getChildren())
+                {
+                    slimArr.add(slimify(i.Item2));
+                }
+                return slimArr;
+            }
+            return defaultValue;
         }
-        private static Serializable.DataType addDetails(Serializable.DataType obj)
+        public static Serializable.DataType fatten(Serializable.DataType obj)
         {
             if (obj is Serializable.Object)
             {
@@ -173,7 +179,7 @@ public class Persistence
                 var children = configObj.getChildren();
                 for (int i = children.Count - 1; i >= 0; i--)
                 {
-                    configObj.set(children[i].Item1, addDetails(children[i].Item2));
+                    configObj.set(children[i].Item1, fatten(children[i].Item2));
                 }
             }
             else if (obj is Serializable.Array)
@@ -182,25 +188,15 @@ public class Persistence
                 Serializable.Array arr = (Serializable.Array)obj;
                 for (int i = children.Count - 1; i >= 0; i--)
                 {
-                    arr.add(addDetails(children[i].Item2));
+                    arr.add(fatten(children[i].Item2));
                     arr.removeAt(i);
                 }
             }
             return new Serializable.Object().set("Value", obj);
         }
-        public static Serializable.Object slimify(Serializable.Object obj)
-        {
-            Serializable.Object slimObj = new Serializable.Object();
-            generateConfig(obj.getObject("Value"), slimObj);
-            return slimObj;
-        }
-        public static Serializable.Object fatten(Serializable.Object obj)
-        {
-            return (Serializable.Object)addDetails(obj);
-        }
         static Config()
         {
-            config = slimify(configDetails);
+            config = slimify(configDetails) as Serializable.Object;
         }
         public static void init(params string[] filePaths)
         {

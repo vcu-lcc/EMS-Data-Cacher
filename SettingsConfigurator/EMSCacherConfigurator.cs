@@ -59,7 +59,7 @@ namespace SettingsConfigurator
                                     )
                                 )
                             )
-                        )
+                        ) as Serializable.Object
                     );
                 }
             }
@@ -203,7 +203,7 @@ namespace SettingsConfigurator
                                 )
                             )
                         )
-                    );
+                    ) as Serializable.Object;
                     if (
                         MessageBox.Show(
                             "Do you want to merge the new config with the current configuration?",

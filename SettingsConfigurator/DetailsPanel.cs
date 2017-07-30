@@ -145,25 +145,6 @@ namespace SettingsConfigurator
                 }
             }
             m_mainView.Controls.Add(table);
-            /*
-            // To be implemented in next commit
-            if (properties.get("AddPrimitive") == null || properties.getBoolean("AddPrimitive") == true)
-            {
-                Button addBtn = new Button();
-                addBtn.Text = "Add Value";
-                addBtn.Click += delegate (object _sender, EventArgs _e)
-                {
-                    ValueGrabber grabber = new ValueGrabber(new Serializable.DataType[] {
-                        new Serializable.Boolean(),
-                        new Serializable.Number(),
-                        new Serializable.String()
-                    });
-                    grabber.ShowDialog();
-                    this.OnChange();
-                };
-                m_mainView.Controls.Add(addBtn);
-            }
-            */
         }
     }
 }

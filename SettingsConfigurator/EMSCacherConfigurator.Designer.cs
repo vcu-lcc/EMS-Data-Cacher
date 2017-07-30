@@ -40,6 +40,8 @@
             this.MENU_FILE = new System.Windows.Forms.ToolStripMenuItem();
             this.MENU_FILE_IMPORT = new System.Windows.Forms.ToolStripMenuItem();
             this.MENU_FILE_EXPORT = new System.Windows.Forms.ToolStripMenuItem();
+            this.MENU_EDIT = new System.Windows.Forms.ToolStripMenuItem();
+            this.MENU_EDIT_ADD = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsManipulator)).BeginInit();
             this.SettingsManipulator.Panel1.SuspendLayout();
             this.SettingsManipulator.Panel2.SuspendLayout();
@@ -69,7 +71,7 @@
             this.SettingsManipulator.Panel2.Controls.Add(this.ConfigurationPanel);
             this.SettingsManipulator.Panel2.Tag = "";
             this.SettingsManipulator.Panel2MinSize = 150;
-            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 836);
+            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 833);
             this.SettingsManipulator.SplitterDistance = 186;
             this.SettingsManipulator.TabIndex = 0;
             // 
@@ -78,7 +80,7 @@
             this.BrowseAttributePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BrowseAttributePanel.Location = new System.Drawing.Point(0, 0);
             this.BrowseAttributePanel.Name = "BrowseAttributePanel";
-            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 836);
+            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 833);
             this.BrowseAttributePanel.TabIndex = 0;
             // 
             // ConfigurationPanel
@@ -90,7 +92,7 @@
             this.ConfigurationPanel.Location = new System.Drawing.Point(0, 0);
             this.ConfigurationPanel.Name = "ConfigurationPanel";
             this.ConfigurationPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 836);
+            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 833);
             this.ConfigurationPanel.TabIndex = 0;
             // 
             // MainUI
@@ -100,13 +102,13 @@
             this.MainUI.Controls.Add(this.SettingsManipulator, 0, 0);
             this.MainUI.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.MainUI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainUI.Location = new System.Drawing.Point(0, 49);
+            this.MainUI.Location = new System.Drawing.Point(0, 52);
             this.MainUI.Name = "MainUI";
             this.MainUI.RowCount = 2;
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainUI.Size = new System.Drawing.Size(1888, 943);
+            this.MainUI.Size = new System.Drawing.Size(1888, 940);
             this.MainUI.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -121,7 +123,7 @@
             this.tableLayoutPanel1.Controls.Add(this.cancel, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.ok, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.apply, 3, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 845);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 842);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -168,10 +170,11 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MENU_FILE});
+            this.MENU_FILE,
+            this.MENU_EDIT});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1888, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(1888, 52);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -181,7 +184,7 @@
             this.MENU_FILE_IMPORT,
             this.MENU_FILE_EXPORT});
             this.MENU_FILE.Name = "MENU_FILE";
-            this.MENU_FILE.Size = new System.Drawing.Size(75, 45);
+            this.MENU_FILE.Size = new System.Drawing.Size(75, 48);
             this.MENU_FILE.Text = "File";
             // 
             // MENU_FILE_IMPORT
@@ -198,7 +201,21 @@
             this.MENU_FILE_EXPORT.Text = "Export";
             this.MENU_FILE_EXPORT.Click += new System.EventHandler(this.MENU_FILE_EXPORT_Click);
             // 
-            // EMSCacherConfiguartor
+            // MENU_EDIT
+            // 
+            this.MENU_EDIT.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MENU_EDIT_ADD});
+            this.MENU_EDIT.Name = "MENU_EDIT";
+            this.MENU_EDIT.Size = new System.Drawing.Size(80, 48);
+            this.MENU_EDIT.Text = "Edit";
+            // 
+            // MENU_EDIT_ADD
+            // 
+            this.MENU_EDIT_ADD.Name = "MENU_EDIT_ADD";
+            this.MENU_EDIT_ADD.Size = new System.Drawing.Size(326, 46);
+            this.MENU_EDIT_ADD.Text = "Add";
+            // 
+            // EMSCacherConfigurator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -206,7 +223,7 @@
             this.Controls.Add(this.MainUI);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "EMSCacherConfiguartor";
+            this.Name = "EMSCacherConfigurator";
             this.Text = "EMS Cacher Configuartor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.SettingsManipulator.Panel1.ResumeLayout(false);
@@ -236,6 +253,8 @@
         private System.Windows.Forms.ToolStripMenuItem MENU_FILE_IMPORT;
         private System.Windows.Forms.ToolStripMenuItem MENU_FILE_EXPORT;
         private System.Windows.Forms.FlowLayoutPanel ConfigurationPanel;
+        private System.Windows.Forms.ToolStripMenuItem MENU_EDIT;
+        private System.Windows.Forms.ToolStripMenuItem MENU_EDIT_ADD;
     }
 }
 
