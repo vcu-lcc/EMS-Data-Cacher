@@ -12,6 +12,10 @@ public class Persistence
     public static Serializable.Object configDetails = new Serializable.Object()
         .set("Description", "Configure settings for the EMS Cacher.")
         .set("Value", new Serializable.Object()
+            .set("Enabled", new Serializable.Object()
+                .set("Value", false)
+                .set("Description", "Enables or disables caching.")
+            )
             .set("URL", new Serializable.Object()
                 .set("Value", "http://127.0.0.1")
                 .set("Description", "The location of EMS api.")
@@ -198,7 +202,7 @@ public class Persistence
         {
             config = slimify(configDetails) as Serializable.Object;
         }
-        public static void init(params string[] filePaths)
+        public static void load(params string[] filePaths)
         {
             foreach (string filePath in filePaths)
             {
@@ -230,6 +234,9 @@ public class Persistence
                     console.warn("Unable to load file " + filePath + '.');
                 }
             }
+        }
+        public static void init()
+        {
             console.init();
         }
         public static TimeSpan toTimeSpan(Serializable.Object timeObj)

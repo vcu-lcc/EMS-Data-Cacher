@@ -71,7 +71,7 @@
             this.SettingsManipulator.Panel2.Controls.Add(this.ConfigurationPanel);
             this.SettingsManipulator.Panel2.Tag = "";
             this.SettingsManipulator.Panel2MinSize = 150;
-            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 833);
+            this.SettingsManipulator.Size = new System.Drawing.Size(1882, 836);
             this.SettingsManipulator.SplitterDistance = 186;
             this.SettingsManipulator.TabIndex = 0;
             // 
@@ -80,7 +80,7 @@
             this.BrowseAttributePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BrowseAttributePanel.Location = new System.Drawing.Point(0, 0);
             this.BrowseAttributePanel.Name = "BrowseAttributePanel";
-            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 833);
+            this.BrowseAttributePanel.Size = new System.Drawing.Size(186, 836);
             this.BrowseAttributePanel.TabIndex = 0;
             // 
             // ConfigurationPanel
@@ -92,7 +92,7 @@
             this.ConfigurationPanel.Location = new System.Drawing.Point(0, 0);
             this.ConfigurationPanel.Name = "ConfigurationPanel";
             this.ConfigurationPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 833);
+            this.ConfigurationPanel.Size = new System.Drawing.Size(1692, 836);
             this.ConfigurationPanel.TabIndex = 0;
             // 
             // MainUI
@@ -102,13 +102,13 @@
             this.MainUI.Controls.Add(this.SettingsManipulator, 0, 0);
             this.MainUI.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.MainUI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainUI.Location = new System.Drawing.Point(0, 52);
+            this.MainUI.Location = new System.Drawing.Point(0, 49);
             this.MainUI.Name = "MainUI";
             this.MainUI.RowCount = 2;
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.MainUI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainUI.Size = new System.Drawing.Size(1888, 940);
+            this.MainUI.Size = new System.Drawing.Size(1888, 943);
             this.MainUI.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -123,7 +123,7 @@
             this.tableLayoutPanel1.Controls.Add(this.cancel, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.ok, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.apply, 3, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 842);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 845);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -174,7 +174,7 @@
             this.MENU_EDIT});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1888, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(1888, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 

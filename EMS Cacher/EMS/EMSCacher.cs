@@ -70,29 +70,32 @@ namespace EMS_Cacher
                 string[] paths = new string[extraPaths.Length + defaultPaths.Length];
                 defaultPaths.CopyTo(paths, 0);
                 extraPaths.CopyTo(paths, defaultPaths.Length);
-                Config.init(paths);
-                maxConsecutiveTimeouts = (int)config.getNumber("MaxConsecutiveTimeouts");
-                maxAuxillaryErrors = (int)config.getNumber("MaxAuxillaryErrors");
-                while (_continue)
-                {
-                    Thread t = new Thread(new ThreadStart(executeOperation));
-                    t.Start();
-                    if (!t.Join(Config.toTimeSpan(config.getObject("Timeout"))))
+                Config.load(paths);
+                if (config.getBoolean("Enabled") == true) {
+                    Config.init();
+                    maxConsecutiveTimeouts = (int)config.getNumber("MaxConsecutiveTimeouts");
+                    maxAuxillaryErrors = (int)config.getNumber("MaxAuxillaryErrors");
+                    while (_continue)
                     {
-                        console.error(
-                            "The maximum specified timeout exceeded!",
-                            "Killing thread..."
-                        );
-                        t.Abort();
-                    }
-                    if (_continue)
-                    {
-                        console.info(
-                            "Sleeping for " + Config.toTimeSpan(config.getObject("Interval"))
-                                .ToString("d'd 'h'h 'm'm 's's'"),
-                            "Next scheduled wakeup at " + (DateTime.Now + Config.toTimeSpan(config.getObject("Interval")))
-                                .ToString("MMMM dd, yyyy hh:mm:ss tt"));
-                        Thread.Sleep(Config.toTimeSpan(config.getObject("Interval")));
+                        Thread t = new Thread(new ThreadStart(executeOperation));
+                        t.Start();
+                        if (!t.Join(Config.toTimeSpan(config.getObject("Timeout"))))
+                        {
+                            console.error(
+                                "The maximum specified timeout exceeded!",
+                                "Killing thread..."
+                            );
+                            t.Abort();
+                        }
+                        if (_continue)
+                        {
+                            console.info(
+                                "Sleeping for " + Config.toTimeSpan(config.getObject("Interval"))
+                                    .ToString("d'd 'h'h 'm'm 's's'"),
+                                "Next scheduled wakeup at " + (DateTime.Now + Config.toTimeSpan(config.getObject("Interval")))
+                                    .ToString("MMMM dd, yyyy hh:mm:ss tt"));
+                            Thread.Sleep(Config.toTimeSpan(config.getObject("Interval")));
+                        }
                     }
                 }
             }
