@@ -114,7 +114,7 @@ namespace JSON
 
         public JSONValue(string type, string value)
         {
-            if (type.ToLower() == "string")
+            if (type != null && type.ToLower() == "string")
             {
                 value = '"' + JSONValue.encodeString(value) + '"';
             }

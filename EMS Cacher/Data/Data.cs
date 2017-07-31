@@ -359,6 +359,14 @@ namespace Data
                 {
                     return null;
                 }
+                public override DataType.Primitive toPrimitive()
+                {
+                    return this;
+                }
+                public override DataType.Object toObject()
+                {
+                    return null;
+                }
             }
             public abstract class Object : DataType
             {
@@ -367,8 +375,26 @@ namespace Data
                 {
                     return null;
                 }
+                public override DataType.Primitive toPrimitive()
+                {
+                    return null;
+                }
+                public override DataType.Object toObject()
+                {
+                    return this;
+                }
             }
-
+            public abstract class Unserializable : DataType
+            {
+                public override List<Tuple<string, DataType>> getChildren()
+                {
+                    return null;
+                }
+                public override string getValue()
+                {
+                    return null;
+                }
+            }
             public virtual string getType()
             {
                 return this.GetType().Name;
@@ -377,6 +403,8 @@ namespace Data
             public abstract bool equal(DataType obj);
             public abstract Serializable.DataType clone();
             public abstract List<Tuple<string, DataType>> getChildren();
+            public abstract DataType.Primitive toPrimitive();
+            public abstract DataType.Object toObject();
         }
     }
     public static class Transformations

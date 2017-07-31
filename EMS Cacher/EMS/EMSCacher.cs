@@ -29,6 +29,12 @@ namespace EMS_Cacher
                 Serializable.Object config = new Serializable.Object()
                 .set("Universities", new Serializable.Array()
                     .add(university)
+                )
+                .set("Template",
+                    Persistence.config.getString("ComputerNameTemplate")
+                )
+                .set("ComputerTypes",
+                    Persistence.config.getArray("ComputerTypes")
                 );
                 string xmlConfig = Transformations.toXML(config).outerXML();
                 string JSONConfig = Transformations.toJSON(config).ToString();
