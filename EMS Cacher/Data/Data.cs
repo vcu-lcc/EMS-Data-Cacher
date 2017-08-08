@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using XML;
 using JSON;
+using System.Windows.Forms;
 
 namespace Data
 {
@@ -42,6 +43,18 @@ namespace Data
             {
                 return new Serializable.Boolean(m_value);
             }
+            public override Primitive fromString(string value)
+            {
+                if (value.ToLower() == "true")
+                {
+                    return new Boolean(true);
+                }
+                if (value.ToLower() == "false")
+                {
+                    return new Boolean(false);
+                }
+                return null;
+            }
         }
         public class Number : DataType.Primitive
         {
@@ -75,6 +88,18 @@ namespace Data
             public override DataType clone()
             {
                 return new Serializable.Number(m_value);
+            }
+            public override Primitive fromString(string value)
+            {
+                double num;
+                if (Double.TryParse(value, out num))
+                {
+                    return new Number(num);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
         public class String : DataType.Primitive
@@ -114,6 +139,10 @@ namespace Data
             {
                 return new Serializable.String(m_value);
             }
+            public override Primitive fromString(string value)
+            {
+                return new String(value);
+            }
         }
         public class Array : DataType.Object
         {
@@ -123,6 +152,23 @@ namespace Data
             {
                 return this.m_children;
             }
+            public virtual Array set(int index, DataType value)
+            {
+                this.m_children[index] = new Tuple<string, DataType>(null, value);
+                return this;
+            }
+            public virtual Array set(int index, bool value)
+            {
+                return this.set(index, new Serializable.Boolean(value));
+            }
+            public virtual Array set(int index, double value)
+            {
+                return this.set(index, new Serializable.Number(value));
+            }
+            public virtual Array set(int index, string value)
+            {
+                return this.set(index, new Serializable.String(value));
+            }
             public virtual Array add(DataType value)
             {
                 this.m_children.Add(new Tuple<string, DataType>(null, value));
@@ -130,18 +176,15 @@ namespace Data
             }
             public virtual Array add(bool value)
             {
-                this.add(new Serializable.Boolean(value));
-                return this;
+                return this.add(new Serializable.Boolean(value));
             }
             public virtual Array add(double value)
             {
-                this.add(new Serializable.Number(value));
-                return this;
+                return this.add(new Serializable.Number(value));
             }
             public virtual Array add(string value)
             {
-                this.add(new Serializable.String(value));
-                return this;
+                return this.add(new Serializable.String(value));
             }
             public virtual Array removeAt(int i)
             {
@@ -152,7 +195,7 @@ namespace Data
             {
                 return m_children[i].Item2;
             }
-            public virtual List<DataType> toArray()
+            public virtual List<DataType> toList()
             {
                 List<DataType> children = new List<DataType>();
                 foreach (var i in m_children)
@@ -199,6 +242,18 @@ namespace Data
                 }
                 return array;
             }
+
+            public override bool contains(DataType obj, bool deep)
+            {
+                foreach (var i in m_children)
+                {
+                    if (deep ? i.Item2.equal(obj) : i.Item2 == obj)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
         public class Object : DataType.Object
         {
@@ -232,18 +287,15 @@ namespace Data
             }
             public virtual Serializable.Object set(string key, bool value)
             {
-                this.set(key, new Serializable.Boolean(value));
-                return this;
+                return this.set(key, new Serializable.Boolean(value));
             }
             public virtual Serializable.Object set(string key, double value)
             {
-                this.set(key, new Serializable.Number(value));
-                return this;
+                return this.set(key, new Serializable.Number(value));
             }
             public virtual Serializable.Object set(string key, string value)
             {
-                this.set(key, new Serializable.String(value));
-                return this;
+                return this.set(key, new Serializable.String(value));
             }
             public virtual DataType get(string key)
             {
@@ -300,6 +352,11 @@ namespace Data
                     {
                         ((DataType.Object)this.get(child.Item1)).apply((DataType.Object)child.Item2);
                     }
+                    else if (this.get(child.Item1) is DataType.Custom)
+                    {
+                        Serializable.DataType slimObj = Persistence.Config.slimify(new Serializable.Object().set("Value", child.Item2));
+                        ((DataType.Custom)this.get(child.Item1)).apply(slimObj == null ? child.Item2 : slimObj);
+                    }
                     else
                     {
                         this.set(child.Item1, child.Item2);
@@ -318,27 +375,30 @@ namespace Data
                 }
                 return this;
             }
-            public override bool equal(DataType genericObj)
+            public virtual bool equal(DataType genericObj, bool deep)
             {
-                if (genericObj == null ||
-                    genericObj is Serializable.Object ||
-                    genericObj.getChildren().Count != m_children.Count)
+                Serializable.Object obj = genericObj as Serializable.Object;
+                if (obj == null ||
+                    obj.getChildren().Count != m_children.Count)
                 {
                     return false;
                 }
-                Serializable.Object obj = (Serializable.Object)genericObj;
                 foreach (Tuple<string, DataType> i in m_children)
                 {
                     if (obj.get(i.Item1) == null ^ i.Item2 == null)
                     {
                         return false;
                     }
-                    else if (!obj.get(i.Item1).equal(i.Item2))
+                    else if ((deep || i.Item2 is Primitive || obj.get(i.Item1) is Primitive) && !obj.get(i.Item1).equal(i.Item2))
                     {
                         return false;
                     }
                 }
                 return true;
+            }
+            public override bool equal(DataType genericObj)
+            {
+                return equal(genericObj, true);
             }
             public override DataType clone()
             {
@@ -348,6 +408,18 @@ namespace Data
                     obj.set(i.Item1, i.Item2.clone());
                 }
                 return obj;
+            }
+
+            public override bool contains(DataType obj, bool deep)
+            {
+                foreach (var i in m_children)
+                {
+                    if (deep ? i.Item2.equal(obj) : i.Item2 == obj)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
@@ -359,32 +431,26 @@ namespace Data
                 {
                     return null;
                 }
-                public override DataType.Primitive toPrimitive()
+                public override DataType serialize()
                 {
                     return this;
                 }
-                public override DataType.Object toObject()
-                {
-                    return null;
-                }
+                public abstract Primitive fromString(string value);
             }
             public abstract class Object : DataType
             {
                 public abstract DataType.Object apply(DataType.Object obj);
+                public abstract bool contains(DataType obj, bool deep);
                 public override string getValue()
                 {
                     return null;
                 }
-                public override DataType.Primitive toPrimitive()
-                {
-                    return null;
-                }
-                public override DataType.Object toObject()
+                public override DataType serialize()
                 {
                     return this;
                 }
             }
-            public abstract class Unserializable : DataType
+            public abstract class Custom : DataType
             {
                 public override List<Tuple<string, DataType>> getChildren()
                 {
@@ -394,6 +460,12 @@ namespace Data
                 {
                     return null;
                 }
+                public override DataType serialize()
+                {
+                    return this.ToSerializable().serialize();
+                }
+                public abstract DataType ToSerializable();
+                public abstract DataType apply(DataType variable);
             }
             public virtual string getType()
             {
@@ -403,8 +475,27 @@ namespace Data
             public abstract bool equal(DataType obj);
             public abstract Serializable.DataType clone();
             public abstract List<Tuple<string, DataType>> getChildren();
-            public abstract DataType.Primitive toPrimitive();
-            public abstract DataType.Object toObject();
+            public abstract DataType serialize();
+            public virtual Boolean toBoolean()
+            {
+                return this as Boolean;
+            }
+            public virtual Number toNumber()
+            {
+                return this as Number;
+            }
+            public virtual String toString()
+            {
+                return this as String;
+            }
+            public virtual Array toArray()
+            {
+                return this as Array;
+            }
+            public virtual Serializable.Object toObject()
+            {
+                return this as Serializable.Object;
+            }
         }
     }
     public static class Transformations
@@ -439,6 +530,7 @@ namespace Data
             }
             else if (var is Serializable.Object)
             {
+
                 XMLElement root = new XMLElement(var.getType());
                 foreach (Tuple<string, Serializable.DataType> children in var.getChildren())
                 {

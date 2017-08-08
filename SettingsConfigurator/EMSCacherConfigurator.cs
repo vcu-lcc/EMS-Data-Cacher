@@ -52,7 +52,7 @@ namespace SettingsConfigurator
                 {
                     this.configDetails.apply(
                         Persistence.Config.fatten(
-                            (Serializable.Object)Transformations.fromXML(
+                            Transformations.fromXML(
                                 XMLDocument.inflate(
                                     File.ReadAllText(
                                         programData + "settings.xml"
@@ -69,7 +69,7 @@ namespace SettingsConfigurator
                     err.Message + Environment.NewLine
                         + "Details:" + Environment.NewLine
                         + err.StackTrace,
-                    "A fatal error has occured",
+                    "Unable to load configuration file.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

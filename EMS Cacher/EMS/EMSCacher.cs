@@ -8,6 +8,7 @@ using System.Threading;
 using System.ServiceProcess;
 using System.IO;
 using static Persistence;
+using System.Diagnostics;
 
 namespace EMS_Cacher
 {
@@ -29,13 +30,11 @@ namespace EMS_Cacher
                 Serializable.Object config = new Serializable.Object()
                 .set("Universities", new Serializable.Array()
                     .add(university)
-                )
-                .set("Template",
-                    Persistence.config.getString("ComputerNameTemplate")
-                )
-                .set("ComputerTypes",
-                    Persistence.config.getArray("ComputerTypes")
                 );
+                console.info("Successfully compiled Universities.");
+                console.log("Applying aliases...");
+                AliasHandler handler = new AliasHandler(Persistence.config.getArray("Aliases"));
+                handler.applyTransformations(config.getArray("Universities"));
                 string xmlConfig = Transformations.toXML(config).outerXML();
                 string JSONConfig = Transformations.toJSON(config).ToString();
                 saveFile("vcu.xml", xmlConfig);
@@ -53,7 +52,7 @@ namespace EMS_Cacher
                         throw e;
                     }
                 }
-            }
+            }/*
             catch (Exception e)
             {
                 console.error(e, "Uncaught Exception on auxilary thread");
@@ -62,7 +61,7 @@ namespace EMS_Cacher
                     console.fatal(e, "Auxillary thread threw exceptions an unacceptable amount of times.", "Program Halted.");
                     _continue = false;
                 }
-            }
+            }*/
         }
         public static void start(string[] extraPaths)
         {
@@ -112,7 +111,14 @@ namespace EMS_Cacher
         }
         public static void Main(string[] args)
         {
-            ServiceBase.Run(new EmsCachingService());
+            if (Environment.UserInteractive)
+            {
+                EmsCachingService.start();
+            }
+            else
+            {
+                ServiceBase.Run(new EmsCachingService());
+            }
         }
     }
 }

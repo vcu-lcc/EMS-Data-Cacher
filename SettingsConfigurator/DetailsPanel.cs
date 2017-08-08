@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using System.Drawing;
+using Templates;
 
 namespace SettingsConfigurator
 {
@@ -101,7 +102,19 @@ namespace SettingsConfigurator
                 table.Controls.Add(label, 0, table.RowCount);
                 table.Controls.Add(box, 1, table.RowCount++);
             }
+            else if (value is Template)
+            {
+                Button editBtn = new Button();
+                editBtn.Text = "Edit";
+                editBtn.Click += delegate (object unused1, EventArgs unused2)
+                {
+                    ((Template)value).invokeEditor();
+                };
+                table.Controls.Add(label, 0, table.RowCount);
+                table.Controls.Add(editBtn, 1, table.RowCount++);
+            }
         }
+
         public void setView(Serializable.Object properties)
         {
             this.clear();

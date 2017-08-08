@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using XML;
+using Templates;
 
 public class Persistence
 {
@@ -31,10 +32,6 @@ public class Persistence
             .set("OutputDirectory", new Serializable.Object()
                 .set("Value", Path.GetTempPath())
                 .set("Description", "The location to put logs and generated building structure files.")
-            )
-            .set("ComputerNameTemplate", new Serializable.Object()
-                .set("Value", string.Empty)
-                .set("Description", "The template in order to generate a computer name.")
             )
             .set("Interval", new Serializable.Object()
                 .set("Description", "The amount of time to wait to rebuild building structure files.")
@@ -144,17 +141,9 @@ public class Persistence
                 .set("AddPrimitive", false)
                 .set("AddObject", false)
             )
-            .set("ComputerTypes", new Serializable.Object()
-                .set("Description", "The avaliable computer types.")
-                .set("Value", new Serializable.Array())
-                .set("AddPrimitive", true)
-                .set("AddObject", false)
-            )
-            .set("Edit", new Serializable.Object()
-                .set("Value", new Serializable.Object())
-                .set("Description", "Aliases to any component within the university.")
-                .set("AddPrimitive", true)
-                .set("AddObject", true)
+            .set("Aliases", new Serializable.Object()
+                .set("Value", new AliasEditor())
+                .set("Description", "Configure aliases and edits when writing to disk.")
             )
         )
         .set("AddPrimitive", false)
@@ -164,29 +153,41 @@ public class Persistence
     {
         public static Serializable.DataType slimify(Serializable.DataType fatConfig)
         {
-            Serializable.DataType defaultValue = ((Serializable.Object)fatConfig).get("Value");
-            if (defaultValue is Serializable.Object)
+            if (fatConfig is Serializable.Object && fatConfig.toObject().get("Value") != null)
             {
-                Serializable.Object slimObj = new Serializable.Object();
-                foreach (var i in defaultValue.getChildren())
+                Serializable.DataType defaultValue = fatConfig.toObject().get("Value");
+                if (defaultValue is Serializable.DataType.Custom)
                 {
-                    slimObj.set(i.Item1, slimify(i.Item2));
+                    return defaultValue.serialize();
                 }
-                return slimObj;
-            }
-            else if (defaultValue is Serializable.Array)
-            {
-                Serializable.Array slimArr = new Serializable.Array();
-                foreach (var i in defaultValue.getChildren())
+                if (defaultValue is Serializable.Object)
                 {
-                    slimArr.add(slimify(i.Item2));
+                    Serializable.Object slimObj = new Serializable.Object();
+                    foreach (var i in defaultValue.getChildren())
+                    {
+                        slimObj.set(i.Item1, slimify(i.Item2));
+                    }
+                    return slimObj;
                 }
-                return slimArr;
+                else if (defaultValue is Serializable.Array)
+                {
+                    Serializable.Array slimArr = new Serializable.Array();
+                    foreach (var i in defaultValue.getChildren())
+                    {
+                        slimArr.add(slimify(i.Item2));
+                    }
+                    return slimArr;
+                }
+                return defaultValue;
             }
-            return defaultValue;
+            return fatConfig;
         }
         public static Serializable.DataType fatten(Serializable.DataType obj)
         {
+            if (obj is Serializable.DataType.Custom)
+            {
+                obj = ((Serializable.DataType.Custom)obj).serialize();
+            }
             if (obj is Serializable.Object)
             {
                 Serializable.Object configObj = (Serializable.Object)obj;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
+using Templates;
 using static Persistence;
 
 namespace SettingsConfigurator

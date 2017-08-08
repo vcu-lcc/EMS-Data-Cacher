@@ -12,9 +12,10 @@ namespace EMS_Cacher
 {
     public partial class EmsCachingService : ServiceBase
     {
-        private Thread t;
+        private Thread t = null;
         private static string productName = System.Windows.Forms.Application.ProductName;
         private EventLog log;
+        private static EmsCachingService currService = null;
 
         public EmsCachingService()
         {
@@ -23,7 +24,7 @@ namespace EMS_Cacher
             this.log.Source = productName;
         }
 
-        public void startMain()
+        private void startMain()
         {
             string programData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
                 + '\\' + productName + '\\';
@@ -41,6 +42,26 @@ namespace EMS_Cacher
         protected override void OnStop()
         {
             this.t.Abort();
+            this.t = null;
+        }
+
+        public static void start()
+        {
+            if (currService == null)
+            {
+                currService = new EmsCachingService();
+            }
+            if (currService.t == null)
+            {
+                currService.OnStart(new String[0]);
+            }
+        }
+        public static void stop()
+        {
+            if (currService != null && currService.t != null)
+            {
+                currService.OnStop();
+            }
         }
     }
 }

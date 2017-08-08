@@ -337,16 +337,22 @@ namespace XML
         }
         public XMLElement append(XMLElement child)
         {
-            m_children.Add(child);
-            this.m_selfClosing = false;
-            this.m_innerText = string.Empty;
+            if (child != null)
+            {
+                m_children.Add(child);
+                this.m_selfClosing = false;
+                this.m_innerText = string.Empty;
+            }
             return this;
         }
         public XMLElement append(List<XMLElement> children)
         {
-            m_children.AddRange(children);
-            this.m_selfClosing = false;
-            this.m_innerText = string.Empty;
+            if (children != null)
+            {
+                m_children.AddRange(children);
+                this.m_selfClosing = false;
+                this.m_innerText = string.Empty;
+            }
             return this;
         }
         public XMLElement text(string innerText)
@@ -372,9 +378,6 @@ namespace XML
         {
             if (this.m_children.Count == 0)
             {
-                if (m_innerText.Length > 1000)
-                {
-                }
                 return XMLNode.decodeEscape(this.m_innerText);
             }
             string total = string.Empty;

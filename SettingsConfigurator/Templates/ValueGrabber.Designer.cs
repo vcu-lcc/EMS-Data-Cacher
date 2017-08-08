@@ -1,4 +1,4 @@
-﻿namespace SettingsConfigurator
+﻿namespace Templates
 {
     partial class ValueGrabber
     {

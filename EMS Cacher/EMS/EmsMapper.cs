@@ -52,7 +52,6 @@ namespace EMS_Cacher
                     Int32.Parse(building.getElementByTagName("ID").text())
                 )));
             }
-            university.apply(config.getObject("Edit"));
             return university;
         }
         public static List<Room> getRooms(int buildingID)
