@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS Cacher", "EMS Cacher\EMS Cacher.csproj", "{6CE20A42-564F-406D-97A5-B3CC65B0A75D}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EMS Cacher Setup", "EMS Cacher Setup\EMS Cacher Setup.vdproj", "{EEEF59BE-C879-42DA-AC91-4C06810D696D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EMS Setup", "EMS Setup\EMS Cacher Setup.vdproj", "{EEEF59BE-C879-42DA-AC91-4C06810D696D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsConfigurator", "SettingsConfigurator\SettingsConfigurator.csproj", "{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS Configurator", "EMS Configurator\EMS Configurator.csproj", "{3CAB0BB5-7FAD-4BC9-9841-C9462F09DAC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS Tester", "EMS Tester\EMS Tester.csproj", "{CC2730B9-D7EC-4CC4-9B81-E7A921D495AE}"
 EndProject

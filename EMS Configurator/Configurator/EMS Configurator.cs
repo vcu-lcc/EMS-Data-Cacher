@@ -8,9 +8,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Data;
 
-namespace SettingsConfigurator
+namespace EMS_Configurator
 {
-    static class Program
+    static class EMSConfigurator
     {
         /// <summary>
         /// The main entry point for the application.

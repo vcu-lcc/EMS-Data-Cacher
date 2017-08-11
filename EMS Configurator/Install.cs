@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SettingsConfigurator
+namespace EMS_Configurator
 {
     [RunInstaller(true)]
     public partial class Install : System.Configuration.Install.Installer

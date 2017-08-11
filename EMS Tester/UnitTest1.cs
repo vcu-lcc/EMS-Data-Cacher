@@ -4,10 +4,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EMS_Tester
 {
     [TestClass]
-    public class UnitTest1
+    public class EMSCacherTest
     {
+        /*
+         * Tests:
+         *  Data types & EducationalInstitution
+         *  Utilities
+         *  Main EMS Classes
+         */
         [TestMethod]
-        public void TestMethod1()
+        public void RunTest()
         {
         }
     }

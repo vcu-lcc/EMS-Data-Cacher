@@ -13,7 +13,7 @@ using Data;
 using XML;
 using System.ServiceProcess;
 
-namespace SettingsConfigurator
+namespace EMS_Configurator
 {
     enum ConfigurationState
     {

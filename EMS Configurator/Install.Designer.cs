@@ -1,4 +1,4 @@
-﻿namespace SettingsConfigurator
+﻿namespace EMS_Configurator
 {
     partial class Install
     {

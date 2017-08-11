@@ -8,7 +8,7 @@ using Data;
 using System.Drawing;
 using Templates;
 
-namespace SettingsConfigurator
+namespace EMS_Configurator
 {
     class DetailsPanel
     {

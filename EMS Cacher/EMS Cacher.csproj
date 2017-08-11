@@ -61,53 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\Action.cs">
-      <Link>Data\Templates\AliasEditor\Action.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\ActionEditor.cs">
-      <Link>Data\Templates\AliasEditor\ActionEditor.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\ActionEditor.Designer.cs">
-      <Link>Data\Templates\AliasEditor\ActionEditor.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\AliasEditor.cs">
-      <Link>Data\Templates\AliasEditor\AliasEditor.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\AliasEditorForm.cs">
-      <Link>Data\Templates\AliasEditor\AliasEditorForm.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\AliasEditorForm.Designer.cs">
-      <Link>Data\Templates\AliasEditor\AliasEditorForm.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\Condition.cs">
-      <Link>Data\Templates\AliasEditor\Condition.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\ConditionEditor.cs">
-      <Link>Data\Templates\AliasEditor\ConditionEditor.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\ConditionEditor.Designer.cs">
-      <Link>Data\Templates\AliasEditor\ConditionEditor.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\NameGrabber.cs">
-      <Link>Data\Templates\AliasEditor\NameGrabber.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\AliasEditor\NameGrabber.Designer.cs">
-      <Link>Data\Templates\AliasEditor\NameGrabber.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\Template.cs">
-      <Link>Data\Templates\Template.cs</Link>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\ValueGrabber.cs">
-      <Link>Data\Templates\ValueGrabber.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\SettingsConfigurator\Templates\ValueGrabber.Designer.cs">
-      <Link>Data\Templates\ValueGrabber.Designer.cs</Link>
-    </Compile>
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -133,21 +86,6 @@
     <Compile Include="Data\XML.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\SettingsConfigurator\Templates\AliasEditor\ActionEditor.resx">
-      <Link>Data\Templates\AliasEditor\ActionEditor.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\SettingsConfigurator\Templates\AliasEditor\AliasEditorForm.resx">
-      <Link>Data\Templates\AliasEditor\AliasEditorForm.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\SettingsConfigurator\Templates\AliasEditor\ConditionEditor.resx">
-      <Link>Data\Templates\AliasEditor\ConditionEditor.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\SettingsConfigurator\Templates\AliasEditor\NameGrabber.resx">
-      <Link>Data\Templates\AliasEditor\NameGrabber.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\SettingsConfigurator\Templates\ValueGrabber.resx">
-      <Link>Data\Templates\ValueGrabber.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="EmsCachingService.resx">
       <DependentUpon>EmsCachingService.cs</DependentUpon>
     </EmbeddedResource>

@@ -8,7 +8,7 @@ using Data;
 using Templates;
 using static Persistence;
 
-namespace SettingsConfigurator
+namespace EMS_Configurator
 {
     class AttributesBrowser
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SettingsConfigurator.Properties
+namespace EMS_Configurator.Properties
 {
 
 
