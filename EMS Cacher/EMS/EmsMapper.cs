@@ -86,7 +86,7 @@ namespace EMS_Cacher
                         roomNumber += num[i];
                     }
                 }
-                rooms.Add(new Room(Int32.Parse(roomNumber),
+                rooms.Add(new Room(roomNumber,
                     room.getElementByTagName("Description").text(),
                     Int32.Parse(room.getElementByTagName("ID").text())));
             }

@@ -61,6 +61,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\Action.cs">
+      <Link>Templates\AliasEditor\Action.cs</Link>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\ActionEditor.cs">
+      <Link>Templates\AliasEditor\ActionEditor.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\ActionEditor.designer.cs">
+      <Link>Templates\AliasEditor\ActionEditor.designer.cs</Link>
+      <DependentUpon>ActionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\AliasEditor.cs">
+      <Link>Templates\AliasEditor\AliasEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\AliasEditorForm.cs">
+      <Link>Templates\AliasEditor\AliasEditorForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\AliasEditorForm.designer.cs">
+      <Link>Templates\AliasEditor\AliasEditorForm.designer.cs</Link>
+      <DependentUpon>AliasEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\Condition.cs">
+      <Link>Templates\AliasEditor\Condition.cs</Link>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\ConditionEditor.cs">
+      <Link>Templates\AliasEditor\ConditionEditor.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\ConditionEditor.designer.cs">
+      <Link>Templates\AliasEditor\ConditionEditor.designer.cs</Link>
+      <DependentUpon>ConditionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\NameGrabber.cs">
+      <Link>Templates\AliasEditor\NameGrabber.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\AliasEditor\NameGrabber.designer.cs">
+      <Link>Templates\AliasEditor\NameGrabber.designer.cs</Link>
+      <DependentUpon>NameGrabber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\Template.cs">
+      <Link>Templates\Template.cs</Link>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\ValueGrabber.cs">
+      <Link>Templates\ValueGrabber.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\EMS Configurator\Templates\ValueGrabber.designer.cs">
+      <Link>Templates\ValueGrabber.designer.cs</Link>
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -86,6 +138,26 @@
     <Compile Include="Data\XML.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\EMS Configurator\Templates\AliasEditor\ActionEditor.resx">
+      <Link>Templates\AliasEditor\ActionEditor.resx</Link>
+      <DependentUpon>ActionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\EMS Configurator\Templates\AliasEditor\AliasEditorForm.resx">
+      <Link>Templates\AliasEditor\AliasEditorForm.resx</Link>
+      <DependentUpon>AliasEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\EMS Configurator\Templates\AliasEditor\ConditionEditor.resx">
+      <Link>Templates\AliasEditor\ConditionEditor.resx</Link>
+      <DependentUpon>ConditionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\EMS Configurator\Templates\AliasEditor\NameGrabber.resx">
+      <Link>Templates\AliasEditor\NameGrabber.resx</Link>
+      <DependentUpon>NameGrabber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\EMS Configurator\Templates\ValueGrabber.resx">
+      <Link>Templates\ValueGrabber.resx</Link>
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmsCachingService.resx">
       <DependentUpon>EmsCachingService.cs</DependentUpon>
     </EmbeddedResource>

@@ -272,18 +272,18 @@ namespace EducationalInstitution
     
     public class Room : Serializable.Object
     {
-        public Room(int roomNumber, string name, int id)
+        public Room(string roomNumber, string name, int id)
         {
-            base.set("RoomNumber", new Serializable.Number(roomNumber));
+            base.set("RoomNumber", new Serializable.String(roomNumber));
             base.set("Name", new Serializable.String(name));
             base.set("ID", new Serializable.Number(id));
         }
-        public Room() : this(-1, "", -1)
+        public Room() : this("", "", -1)
         {
         }
-        public int getRoomNumber()
+        public string getRoomNumber()
         {
-            return (int)base.getNumber("ID");
+            return base.getString("ID");
         }
         public string getName()
         {
