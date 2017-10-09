@@ -66,56 +66,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurator\DetailsPanel.cs" />
+    <Compile Include="Configurator\AttributesBrowser.cs" />
     <Compile Include="Configurator\Configurator UI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Configurator\Configurator UI.Designer.cs">
       <DependentUpon>Configurator UI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configurator\DetailsPanel.cs" />
+    <Compile Include="Configurator\EMS Configurator.cs" />
     <Compile Include="Install.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Install.Designer.cs">
       <DependentUpon>Install.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configurator\EMS Configurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configurator\AttributesBrowser.cs" />
-    <Compile Include="Templates\AliasEditor\Action.cs" />
-    <Compile Include="Templates\AliasEditor\ActionEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\ActionEditor.Designer.cs">
-      <DependentUpon>ActionEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\AliasEditor.cs" />
-    <Compile Include="Templates\AliasEditor\AliasEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\AliasEditorForm.Designer.cs">
-      <DependentUpon>AliasEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\Condition.cs" />
-    <Compile Include="Templates\AliasEditor\ConditionEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\ConditionEditor.Designer.cs">
-      <DependentUpon>ConditionEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\NameGrabber.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Templates\AliasEditor\NameGrabber.Designer.cs">
-      <DependentUpon>NameGrabber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\Template.cs" />
-    <Compile Include="Templates\ValueGrabber.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Templates\ValueGrabber.Designer.cs">
-      <DependentUpon>ValueGrabber.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Configurator\Configurator UI.resx">
       <DependentUpon>Configurator UI.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,21 +94,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Templates\AliasEditor\ActionEditor.resx">
-      <DependentUpon>ActionEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\AliasEditor\AliasEditorForm.resx">
-      <DependentUpon>AliasEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\AliasEditor\ConditionEditor.resx">
-      <DependentUpon>ConditionEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\AliasEditor\NameGrabber.resx">
-      <DependentUpon>NameGrabber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\ValueGrabber.resx">
-      <DependentUpon>ValueGrabber.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -169,11 +120,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EMS Cacher\EMS Cacher.csproj">
-      <Project>{6ce20a42-564f-406d-97a5-b3cc65b0a75d}</Project>
-      <Name>EMS Cacher</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9cd68190-b80d-48db-a162-cb31e9f919fa</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Data.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EducationalInstitution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\JSON.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\XML.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\Action.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ActionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ActionEditor.Designer.cs">
+      <DependentUpon>ActionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\AliasEditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\AliasEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\AliasEditorForm.Designer.cs">
+      <DependentUpon>AliasEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\Condition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ConditionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ConditionEditor.Designer.cs">
+      <DependentUpon>ConditionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\NameGrabber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\NameGrabber.Designer.cs">
+      <DependentUpon>NameGrabber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\Template.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\ValueGrabber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\ValueGrabber.Designer.cs">
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\AliasHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\HTTPClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Persistence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\SoapClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ActionEditor.resx">
+      <DependentUpon>ActionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\AliasEditorForm.resx">
+      <DependentUpon>AliasEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\ConditionEditor.resx">
+      <DependentUpon>ConditionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Templates\AliasEditor\NameGrabber.resx">
+      <DependentUpon>NameGrabber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Templates\ValueGrabber.resx">
+      <DependentUpon>ValueGrabber.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

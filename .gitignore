@@ -1,3 +1,6 @@
 .vs/*
 */obj/*
 *.cache
+*/Debug/*
+*.pdb
+*.exe.config
